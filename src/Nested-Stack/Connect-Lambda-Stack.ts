@@ -17,18 +17,18 @@ interface RootStactProp extends cdk.NestedStackProps {
     deployProfileName?: string;
 }
 
-export class RoutingLambdaStack extends cdk.NestedStack {
+export class ConnectLambdaStack extends cdk.NestedStack {
   public readonly lambdaFunction: lambda.Function;
 
   constructor(scope: Construct, id: string, props: RootStactProp) {
     super(scope, id, props);
 
 
-    const lambdaFunction = new lambda.Function(this, `${props.client}-RoutingLambdaUS`, {
+    const lambdaFunction = new lambda.Function(this, `${props.client}-ValidatePhoneN`, {
       runtime: lambda.Runtime.NODEJS_18_X,
       handler: 'index.handler',
       // Bundling the Lambda code, using image bundling
-      code: lambda.Code.fromAsset(path.join(__dirname, '../lambda')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/Connect-Lambdas')),
       timeout: cdk.Duration.minutes(2)
     });
 
