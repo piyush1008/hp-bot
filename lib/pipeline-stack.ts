@@ -51,7 +51,7 @@ export class HpNlLexLambdasStack extends cdk.Stack {
       },
       synth: new CodeBuildStep("SynthStep", {
         input: CodePipelineSource.connection(
-          "DTO-BTS-CS-Global-NLIVR/hp-NLIVR-tables",
+          "DTO-BTS-CS-Global-NLIVR/hp-NLIVR-lex-lambdas",
           githubBranch,
           {
               connectionArn:
