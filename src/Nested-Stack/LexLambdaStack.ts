@@ -18,7 +18,7 @@ interface RootStactProp extends cdk.NestedStackProps {
     deployProfileName?: string;
 }
 
-export class LexLambdaStack extends cdk.Stack {
+export class LexLambdaStack extends cdk.NestedStack {
   public readonly lambdaFunction: lambda.Function;
 
   constructor(scope: Construct, id: string, props: RootStactProp) {
