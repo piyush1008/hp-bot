@@ -8,7 +8,6 @@ export const DevUsEast:ApplicationStageProps={
         region: "us-east-1",
     },
     client: "hp-V2",
-    stage: "dev",
-    connectseed: ["connectData_EU.json","metadata.json"]
+    stage: "dev"
 
 }

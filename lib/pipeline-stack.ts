@@ -80,7 +80,7 @@ export class HpNlLexLambdasStack extends cdk.Stack {
       {
           const stage = this._props.stages[i];
 
-          const appStage=new ApplicationStage(this, `hptable${i+1}`,stage)
+          const appStage=new ApplicationStage(this, `hpapp${i+1}`,stage)
           applicationWave.addStage(appStage)
 
       
