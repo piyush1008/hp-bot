@@ -20,7 +20,7 @@ function buildStack(){
   switch(pipeline)
   {
      case "hpDev":
-       new HpNlLexLambdasStack(app, 'hp-nl-v2-dev-lex-lambdas',"hpdev", AppConfig.hpDev );
+       new HpNlLexLambdasStack(app, 'hp-nl-v2-dev-lex-lambdas',"hpDev", AppConfig.hpDev );
        break;
 
 
