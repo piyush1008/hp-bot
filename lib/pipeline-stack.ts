@@ -35,7 +35,7 @@ export class HpNlLexLambdasStack extends cdk.Stack {
      const githubRepo = this._props.repoName;
      const githubBranch = this._props.repoTriggerBranch;
      const SYNTH_STACK_NAME = this._props.pipelineStackName;
-      console.log("test 1 23")
+      console.log("test 1 23",PIPELINE_NAME)
 
      const pipeline = new CodePipeline(this, "CDKPipeline", {
       crossAccountKeys: true,
