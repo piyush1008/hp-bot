@@ -45,6 +45,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
 
     this.buildLexLambdaDefinitions(props).forEach(config => {
       const lambdaFunction = new lambda.Function(this, config.functionName, {
+         functionName: config.functionName,
         runtime: lambda.Runtime.NODEJS_18_X,
         handler: `${path.basename(config.filePath)}.${config.handler}`,
         code: lambda.Code.fromAsset(path.dirname(config.filePath)),
@@ -72,7 +73,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}RoutingLambdaUS`,
+        functionName: `${props.client}-RoutingLambdaUS`,
         botName: "RoutingLambdaUS",
         localeId: "en_US",
         countryCode: "US",
@@ -81,7 +82,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/US-English/index.ts",
       },
       {
-        functionName: `${props.client}RoutingLambdaGB`,
+        functionName: `${props.client}-RoutingLambdaGB`,
         botName: "RoutingLambdaGB",
         localeId: "en_GB",
         countryCode: "US",
