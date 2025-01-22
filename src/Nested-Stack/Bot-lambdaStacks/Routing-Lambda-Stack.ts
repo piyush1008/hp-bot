@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import path = require('path');
 import { ApplicationStageProps } from "../../../model/ApplicationStageProps";
+import { ILexLambdas } from '../../../model/ILexLambdas';
 
 interface RootStactProp extends cdk.NestedStackProps {
     env: cdk.Environment;
@@ -19,34 +20,68 @@ interface RootStactProp extends cdk.NestedStackProps {
 
 export class RoutingLambdaStack extends cdk.NestedStack {
   public readonly lambdaFunction: lambda.Function;
+  props: any;
 
   constructor(scope: Construct, id: string, props: RootStactProp) {
     super(scope, id, props);
 
 
-    const lambdaFunction = new lambda.Function(this, `${props.client}-RoutingLambdaUS`, {
-      runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      // Bundling the Lambda code, using image bundling
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda/LexLambdas')),
-      timeout: cdk.Duration.minutes(2)
+    this.buildLexLambdaDefinitions(props).forEach(config => {
+      const lambdaFunction = new lambda.Function(this, config.functionName, {
+        runtime: lambda.Runtime.NODEJS_18_X,
+        handler: `${path.basename(config.filePath)}.${config.handler}`,
+        code: lambda.Code.fromAsset(path.dirname(config.filePath)),
+        environment: {
+          BOT_NAME: config.botName,
+          LOCALE_ID: config.localeId,
+          COUNTRY_CODE: config.countryCode,
+        },
+        role: config.role,  // Attach the IAM Role
+      });
+
+      lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+        actions: [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:BatchWriteItem"
+        ],
+        resources: [
+          lambdaFunction.functionArn
+        ]
+      }));
     });
+  }
 
-    lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
-      actions: [
-        "dynamodb:GetItem",
-        "dynamodb:PutItem",
-        "dynamodb:UpdateItem",
-        "dynamodb:DeleteItem",
-        "dynamodb:BatchWriteItem"
-      ],
-      resources: [
-        "*"
-      ]
-    }));
 
+
+
+
+  private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
+    return [
+      {
+        functionName: `${props.client}RoutingLambdaUS`,
+        botName: "RoutingLambdaUS",
+        localeId: "en_US",
+        countryCode: "US",
+        handler: "routing",
+        grantLexInvoke: true,
+        filePath: "src/lambda/LexLambdas/US-English/index.ts",
+      },
+      {
+        functionName: `${props.client}RoutingLambdaGB`,
+        botName: "RoutingLambdaGB",
+        localeId: "en_GB",
+        countryCode: "US",
+        handler: "routing",
+        grantLexInvoke: true,
+        filePath: "src/lambda/LexLambdas/british-english/index.ts",
+      }
+    ]
+  }
 
 
     // Add additional triggers (e.g., EventBridge, SQS, DynamoDB, etc.) as needed
-  }
+  
 }
