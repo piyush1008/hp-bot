@@ -25,6 +25,22 @@ export class RoutingLambdaStack extends cdk.NestedStack {
   constructor(scope: Construct, id: string, props: RootStactProp) {
     super(scope, id, props);
 
+    const role = new iam.Role(this, 'LambdaExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+    });
+    
+    role.addToPolicy(new iam.PolicyStatement({
+      actions: [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:BatchWriteItem"
+      ],
+      resources: [
+        `arn:aws:dynamodb:${props.env.region}:${props.env.account}:table/hptableDev12-dev-ConnectDataTable`
+      ]
+    }));
 
     this.buildLexLambdaDefinitions(props).forEach(config => {
       const lambdaFunction = new lambda.Function(this, config.functionName, {
@@ -36,21 +52,8 @@ export class RoutingLambdaStack extends cdk.NestedStack {
           LOCALE_ID: config.localeId,
           COUNTRY_CODE: config.countryCode,
         },
-        role: config.role,  // Attach the IAM Role
+        role: role,  // Attach the IAM Role
       });
-
-      lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
-        actions: [
-          "dynamodb:GetItem",
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem",
-          "dynamodb:DeleteItem",
-          "dynamodb:BatchWriteItem"
-        ],
-        resources: [
-          lambdaFunction.functionArn
-        ]
-      }));
     });
   }
 
