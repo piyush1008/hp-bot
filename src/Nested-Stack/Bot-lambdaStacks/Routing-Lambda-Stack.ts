@@ -6,6 +6,7 @@ import path = require('path');
 import { ApplicationStageProps } from "../../../model/ApplicationStageProps";
 import { ILexLambdas } from '../../../model/ILexLambdas';
 
+
 interface RootStactProp extends cdk.NestedStackProps {
     env: cdk.Environment;
     client: string;
@@ -54,7 +55,14 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         },
         role: role,  // Attach the IAM Role
       });
+
+      lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
+        principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
+        action: 'lambda:InvokeFunction',
+      });
     });
+
+
   }
 
 
