@@ -53,6 +53,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
           BOT_NAME: config.botName,
           LOCALE_ID: config.localeId,
           COUNTRY_CODE: config.countryCode,
+          REGION : props.env.region!
         },
         role: role,  // Attach the IAM Role
       });
