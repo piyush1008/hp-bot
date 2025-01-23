@@ -7,17 +7,15 @@ import { I_ENVprops } from '../../../../model/Ienvprops';
 export class RoutingLambda {
 
 
-    private lexClient: LexRuntimeV2Client;
+
      private timings: {
         lexCallStart: number;
         lexCallEnd: number;
      }
 
-    constructor() {
-      this.lexClient = new LexRuntimeV2Client({});
-    }
 
-    private async getIntent(event: LexV2Event): Promise<any> {
+
+    private async getIntent(event: LexV2Event,lexClient: LexRuntimeV2Client): Promise<any> {
         try {
           const userMessage = getSessionAttribute(event, "InitialInputTranscript");
           console.log("Input Transcript:", userMessage);
@@ -34,7 +32,7 @@ export class RoutingLambda {
           console.log("Params:", params);
     
           const command = new RecognizeTextCommand(params);
-          const response = await this.lexClient.send(command);
+          const response = await lexClient.send(command);
           console.log("Lex Response:", response);
     
           return response;
@@ -83,12 +81,11 @@ export class RoutingLambda {
       
         if (intentName === "CS_Intent") {
 
-        const lexClient = new LexRuntimeV2Client({ region: _props.region});
-
+         const LexClient = new LexRuntimeV2Client({region: _props.region});;
           setSessionAttribute(event, "SupportDevice_intent", intentName);
           this.timings.lexCallStart = Date.now();
       
-          const lexResponse = await this.getIntent(event);
+          const lexResponse = await this.getIntent(event,LexClient);
           this.timings.lexCallEnd = Date.now();
       
           console.log("Timing taken:", {

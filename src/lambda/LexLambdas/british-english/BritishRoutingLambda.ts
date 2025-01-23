@@ -21,6 +21,7 @@ export class BritishRoutingLambda extends RoutingLambda{
                 Country_code: process.env.COUNTRY_CODE!,
                 locale: process.env.LOCALE_ID!
             }
-            return super.validate(event,_props);  // Passing modified data or event
+            const parentResponse = await super.validate(event,_props);  // Parent method call
+            return { ...parentResponse};
     }
 }
