@@ -48,6 +48,10 @@ export class ConnectLambdaStack extends cdk.NestedStack {
         runtime: lambda.Runtime.NODEJS_18_X,
         handler: `${path.basename(config.filePath)}.${config.handler}`,
         code: lambda.Code.fromAsset(path.dirname(config.filePath)),
+        environment: {
+          REGION : props.env.region!,
+          ACCOUNT : props.env.account!
+        },
         role: role,  // Attach the IAM Role
       });
 
@@ -67,12 +71,12 @@ export class ConnectLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-"ClaimedPhNumberLambda`,
+        functionName: `${props.client}-ClaimedPhNumberLambda`,
         handler: "claimed",
         filePath: "src/lambda/Connect-Lambdas/index.ts",
       },
       {
-        functionName: `${props.client}-"MultiLingualPromptLambda`,
+        functionName: `${props.client}-MultiLingualPromptLambda`,
         handler: "multi-prompt",
         filePath: "src/lambda/Connect-Lambdas/index.ts",
       },

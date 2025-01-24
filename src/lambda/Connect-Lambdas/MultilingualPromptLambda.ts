@@ -2,7 +2,7 @@
 
 
 
-export class ClaimedPhNumberLambda {
+export class MultiLingualPromptLambda {
 
     private region= process.env.REGION
     private account = process.env.ACCOUNT
