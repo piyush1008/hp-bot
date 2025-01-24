@@ -1,4 +1,20 @@
-export const handler = async (event: any) => {
+import { ClaimedPhNumberLambda } from "./ClaimedPhNumber";
 
-    console.log("EVENT", JSON.stringify(event))
-}
+
+
+export function getLambda(name: string) {
+
+  
+    switch (name) {
+      case "claimed":
+        return new ClaimedPhNumberLambda()
+      default:
+        throw new Error(`invalid lambda name ${name}`);
+    }
+  
+  }
+  
+  
+  export const routing = async (event: any) => {
+    return await getLambda('claimed').handler(event);
+  };

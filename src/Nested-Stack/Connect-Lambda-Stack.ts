@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import path = require('path');
 import { ApplicationStageProps } from "../../model/ApplicationStageProps";
+import { ILexLambdas } from '../../model/ILexLambdas';
 
 interface RootStactProp extends cdk.NestedStackProps {
     env: cdk.Environment;
@@ -19,20 +20,16 @@ interface RootStactProp extends cdk.NestedStackProps {
 
 export class ConnectLambdaStack extends cdk.NestedStack {
   public readonly lambdaFunction: lambda.Function;
+  props: any;
 
   constructor(scope: Construct, id: string, props: RootStactProp) {
     super(scope, id, props);
 
-
-    const lambdaFunction = new lambda.Function(this, `${props.client}-ValidatePhoneN`, {
-      runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
-      // Bundling the Lambda code, using image bundling
-      code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/Connect-Lambdas')),
-      timeout: cdk.Duration.minutes(2)
+    const role = new iam.Role(this, 'LambdaExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
-
-    lambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+    
+    role.addToPolicy(new iam.PolicyStatement({
       actions: [
         "dynamodb:GetItem",
         "dynamodb:PutItem",
@@ -41,12 +38,44 @@ export class ConnectLambdaStack extends cdk.NestedStack {
         "dynamodb:BatchWriteItem"
       ],
       resources: [
-        "*"
+        `arn:aws:dynamodb:${props.env.region}:${props.env.account}:table/hptableDev12-dev-ConnectDataTable`
       ]
     }));
 
+    this.buildLexLambdaDefinitions(props).forEach(config => {
+      const lambdaFunction = new lambda.Function(this, config.functionName!, {
+         functionName: config.functionName,
+        runtime: lambda.Runtime.NODEJS_18_X,
+        handler: `${path.basename(config.filePath)}.${config.handler}`,
+        code: lambda.Code.fromAsset(path.dirname(config.filePath)),
+        role: role,  // Attach the IAM Role
+      });
+
+      lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
+        principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
+        action: 'lambda:InvokeFunction',
+      });
+    });
 
 
-    // Add additional triggers (e.g., EventBridge, SQS, DynamoDB, etc.) as needed
+  }
+
+
+
+
+
+  private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
+    return [
+      {
+        functionName: `${props.client}-"ClaimedPhNumberLambda`,
+        handler: "claimed",
+        filePath: "src/lambda/Connect-Lambdas/index.ts",
+      },
+      {
+        functionName: `${props.client}-"MultiLingualPromptLambda`,
+        handler: "multi-prompt",
+        filePath: "src/lambda/Connect-Lambdas/index.ts",
+      },
+    ]
   }
 }

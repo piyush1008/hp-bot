@@ -50,9 +50,9 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         handler: `${path.basename(config.filePath)}.${config.handler}`,
         code: lambda.Code.fromAsset(path.dirname(config.filePath)),
         environment: {
-          BOT_NAME: config.botName,
-          LOCALE_ID: config.localeId,
-          COUNTRY_CODE: config.countryCode,
+          BOT_NAME: config.botName!,
+          LOCALE_ID: config.localeId!,
+          COUNTRY_CODE: config.countryCode!,
           REGION : props.env.region!
         },
         role: role,  // Attach the IAM Role
