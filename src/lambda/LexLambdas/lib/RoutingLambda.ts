@@ -43,7 +43,7 @@ export class RoutingLambda {
     
 
 
-    public async validate(event: LexV2Event,_props: I_ENVprops): Promise<any> {
+    public async handler(event: LexV2Event,_props: I_ENVprops): Promise<any> {
       
         console.log("Event Details:", event);
       

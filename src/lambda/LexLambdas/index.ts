@@ -1,5 +1,6 @@
-import { I_ENVprops } from "../../../../model/Ienvprops";
-import { BritishRoutingLambda } from "./BritishRoutingLambda";
+import { I_ENVprops } from "../../../model/Ienvprops";
+import { RoutingLambda } from "./lib/RoutingLambda";
+
 
 const _props : I_ENVprops={
   region: process.env.REGION!,
@@ -7,12 +8,11 @@ const _props : I_ENVprops={
   locale: process.env.LOCALE_ID!
 }
 
-
 export function getLambda(name: string) {
 
     switch (name) {
       case "routing":
-        return new BritishRoutingLambda()
+        return new RoutingLambda()
       default:
         throw new Error(`invalid lambda name ${name}`);
     }

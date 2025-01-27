@@ -80,7 +80,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         countryCode: "US",
         handler: "routing",
         grantLexInvoke: true,
-        filePath: "src/lambda/LexLambdas/US-English/index.ts",
+        filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
         functionName: `${props.client}-RoutingLambdaGB`,
@@ -90,6 +90,15 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         handler: "routing",
         grantLexInvoke: true,
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
+      },
+      {
+        functionName: `${props.client}-RoutingLambdaAU`,
+        botName: "RoutingLambdaAU",
+        localeId: "en_AU",
+        countryCode: "AU",
+        handler: "routing",
+        grantLexInvoke: true,
+        filePath: "src/lambda/LexLambdas/AU-English/index.ts",
       }
     ]
   }
