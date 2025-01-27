@@ -9,7 +9,7 @@ export function getLambda(name: string) {
     switch (name) {
       case "claimed":
         return new ClaimedPhNumberLambda()
-      case "claimed":
+      case "multi-prompt":
         return new MultiLingualPromptLambda()  
       default:
         throw new Error(`invalid lambda name ${name}`);
