@@ -9,9 +9,9 @@ import { I_ENVprops } from "../../../../model/Ienvprops";
 
 export class USEnglsihRoutingLambda extends RoutingLambda{
 
-
     public async handler(event: LexV2Event): Promise<any> {
-       
+           
+        console.log("routing method",RoutingLambda);
         if ((event as any).isWarmer) {
             console.log("Warming detected");
             return "Lambda is warm." 
@@ -22,8 +22,8 @@ export class USEnglsihRoutingLambda extends RoutingLambda{
             Country_code: process.env.COUNTRY_CODE!,
             locale: process.env.LOCALE_ID!
         }
-        return super.validate(event,_props); 
+        const parentResponse = await super.validate(event,_props);  
+        return { ...parentResponse};
     }
-
     
 }
