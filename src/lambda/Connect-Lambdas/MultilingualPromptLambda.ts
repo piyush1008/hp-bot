@@ -8,6 +8,6 @@ export class MultiLingualPromptLambda {
     private account = process.env.ACCOUNT
     public async handler(event: any)
     {
-        console.log("Hello World",this.region,this.account)
+        console.log("Hello World Multilingual",this.region,this.account)
     }
 }
