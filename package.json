@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-lex-runtime-v2": "^3.733.0",
-    "aws-cdk-lib": "2.176.0",
-    "constructs": "^10.0.0"
+    "aws-cdk-lib": "^2.176.0",
+    "constructs": "^10.4.2"
   }
 }

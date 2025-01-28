@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import path = require('path');
 import { ApplicationStageProps } from "../../model/ApplicationStageProps";
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { ILexLambdas } from '../../model/ILexLambdas';
 
 interface RootStactProp extends cdk.NestedStackProps {
@@ -43,18 +44,18 @@ export class ConnectLambdaStack extends cdk.NestedStack {
     }));
 
     this.buildLexLambdaDefinitions(props).forEach(config => {
-      const lambdaFunction = new lambda.Function(this, config.functionName!, {
-         functionName: config.functionName,
+      const lambdaFunction = new NodejsFunction(this, config.functionName!, {
+        functionName: config.functionName,
         runtime: lambda.Runtime.NODEJS_18_X,
-        handler: `${path.basename(config.filePath)}.${config.handler}`,
-        code: lambda.Code.fromAsset(path.dirname(config.filePath)),
+        entry: config.filePath, // Path to the handler file (automatically handles it)
+        handler: config.handler, // The exported handler function in the entry file
         environment: {
-          REGION : props.env.region!,
-          ACCOUNT : props.env.account!
+          REGION: props.env.region!,
+          ACCOUNT: props.env.account!
         },
-        role: role,  // Attach the IAM Role
+        role: role, // Attach the IAM Role
       });
-
+    
       lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
         principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
         action: 'lambda:InvokeFunction',
