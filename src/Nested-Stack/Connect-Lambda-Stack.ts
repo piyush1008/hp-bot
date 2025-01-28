@@ -46,7 +46,7 @@ export class ConnectLambdaStack extends cdk.NestedStack {
     this.buildLexLambdaDefinitions(props).forEach(config => {
       const lambdaFunction = new NodejsFunction(this, config.functionName!, {
         functionName: config.functionName,
-        runtime: lambda.Runtime.NODEJS_18_X,
+        runtime: lambda.Runtime.NODEJS_20_X,
         entry: config.filePath, // Path to the handler file (automatically handles it)
         handler: config.handler, // The exported handler function in the entry file
         environment: {
@@ -73,12 +73,12 @@ export class ConnectLambdaStack extends cdk.NestedStack {
     return [
       {
         functionName: `${props.client}-ClaimedPhNumberLambda`,
-        handler: "claimed",
+        handler: "ClaimedPhNumber",
         filePath: "src/lambda/Connect-Lambdas/index.ts",
       },
       {
         functionName: `${props.client}-MultiLingualPromptLambda`,
-        handler: "multi-prompt",
+        handler: "MultiLingualPrompt",
         filePath: "src/lambda/Connect-Lambdas/index.ts",
       },
     ]
