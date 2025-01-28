@@ -47,8 +47,8 @@ export class ConnectLambdaStack extends cdk.NestedStack {
       const lambdaFunction = new NodejsFunction(this, config.functionName!, {
         functionName: config.functionName,
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: config.filePath, // Path to the handler file (automatically handles it)
-        handler: config.handler, // The exported handler function in the entry file
+        entry: path.join(__dirname, config.filePath), 
+        handler: config.handler, 
         environment: {
           REGION: props.env.region!,
           ACCOUNT: props.env.account!
