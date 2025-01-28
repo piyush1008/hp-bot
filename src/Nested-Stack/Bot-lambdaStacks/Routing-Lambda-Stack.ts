@@ -48,7 +48,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       const lambdaFunction = new NodejsFunction(this, config.functionName!, {
         functionName: config.functionName,
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, config.filePath), 
+        entry: config.filePath, 
         handler: config.handler, 
         environment: {
           REGION: props.env.region!,

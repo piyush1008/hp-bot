@@ -43,11 +43,11 @@ export class ConnectLambdaStack extends cdk.NestedStack {
       ]
     }));
 
-    this.buildLexLambdaDefinitions(props).forEach(config => {
+    this.buildConnectLambdaDefinitions(props).forEach(config => {
       const lambdaFunction = new NodejsFunction(this, config.functionName!, {
         functionName: config.functionName,
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, config.filePath), 
+        entry: config.filePath, 
         handler: config.handler, 
         environment: {
           REGION: props.env.region!,
@@ -69,7 +69,7 @@ export class ConnectLambdaStack extends cdk.NestedStack {
 
 
 
-  private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
+  private buildConnectLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
         functionName: `${props.client}-ClaimedPhNumberLambda`,
