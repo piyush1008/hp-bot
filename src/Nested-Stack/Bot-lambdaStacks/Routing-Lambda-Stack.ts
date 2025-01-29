@@ -44,6 +44,11 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       ]
     }));
 
+    role.addToPolicy(new iam.PolicyStatement({
+      actions: ["logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents"],
+      resources: [`arn:aws:logs:*:${props.env.account}:*:*`],
+    }));
+
     this.buildLexLambdaDefinitions(props).forEach(config => {
       const lambdaFunction = new NodejsFunction(this, config.functionName!, {
         functionName: config.functionName,
