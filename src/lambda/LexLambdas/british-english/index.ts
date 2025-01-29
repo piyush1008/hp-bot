@@ -1,4 +1,5 @@
 import { I_ENVprops } from "../../../../model/Ienvprops";
+import { RoutingLambda } from "../lib/RoutingLambda";
 import { BritishRoutingLambda } from "./BritishRoutingLambda";
 
 
@@ -22,6 +23,6 @@ const _props : I_ENVprops={
   
   
 export const routing = async (event: any) => {
-      const britishRout = new BritishRoutingLambda()
+      const britishRout = new RoutingLambda()
       return await britishRout.handler(event, _props)
 };

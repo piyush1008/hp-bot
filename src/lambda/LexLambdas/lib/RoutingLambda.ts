@@ -45,7 +45,7 @@ export class RoutingLambda {
 
     public async handler(event: LexV2Event,_props: I_ENVprops): Promise<any> {
       
-        console.log("Event Details:", event);
+        console.log("Event Details ROUTING:", event);
       
         const connId = getSessionAttribute(event, "ConnId");
         console.log("ConnId:", connId);
