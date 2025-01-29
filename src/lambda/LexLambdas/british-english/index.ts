@@ -10,19 +10,19 @@ const _props : I_ENVprops={
 }
 
 
-// export function getLambda(name: string) {
+export function getLambda(name: string) {
 
-//     switch (name) {
-//       case "routing":
-//         return new BritishRoutingLambda()
-//       default:
-//         throw new Error(`invalid lambda name ${name}`);
-//     }
   
-// }
+    switch (name) {
+      case "routing":
+        return new BritishRoutingLambda()
+      default:
+        throw new Error(`invalid lambda name ${name}`);
+    }
+  
+  }
   
   
-export const routing = async (event: any) => {
-      const britishRout = new RoutingLambda()
-      return await britishRout.handler(event, _props)
-};
+  export const routing = async (event: any) => {
+    return await getLambda('routing').handler(event,_props);
+  };
