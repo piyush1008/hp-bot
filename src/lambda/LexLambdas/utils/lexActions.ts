@@ -1,7 +1,7 @@
 import { LexV2DialogAction, LexV2Event, LexV2Slots } from "aws-lambda";
 
 
-export const elicitSlot = (intentName: LexV2Event, slots: LexV2Event, slotToElicit: LexV2DialogAction, messageContent: string ,sessionAttributes: LexV2Event) => {
+export const elicitSlot = (intentName: string, slots: LexV2Slots, slotToElicit: string, messageContent: string ,sessionAttributes: Record<string, string>) => {
     
     // console.log("Intent Name", intentName)
     // console.log("slots", slots)
@@ -78,15 +78,14 @@ export const getSessionAttributeObject = (event: LexV2Event, attributeName: stri
 };
 
 
-export const getSessionAttribute=(event: LexV2Event,attributeName: string) => {
+export const getSessionAttribute=(event: LexV2Event,attributeName: string | null) => {
     // console.log("inside getSessionAttribute");
     if (event.sessionState.sessionAttributes) {
-        // console.log("0092",attributeName)
-        // console.log(event.sessionState.sessionAttributes[attributeName]);
-        return event.sessionState.sessionAttributes[attributeName];
+        if (!attributeName) return "null"; 
+        return event.sessionState.sessionAttributes?.[attributeName]
     }
     // console.log("did not find the attibute name")
-    return undefined
+    return null
 }
 
 

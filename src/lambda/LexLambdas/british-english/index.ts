@@ -1,6 +1,7 @@
 import { I_ENVprops } from "../../../../model/Ienvprops";
 import { RoutingLambda } from "../lib/RoutingLambda";
-import { BritishRoutingLambda } from "./BritishRoutingLambda";
+import { SupportDeviceLambda } from "../lib/supportDeviceLambda";
+
 
 
 const _props : I_ENVprops={
@@ -12,10 +13,16 @@ const _props : I_ENVprops={
 
 export function getLambda(name: string) {
 
-  
+  if(_props.Country_code === "IE")
+  {
+    _props.locale = "en_IE"
+    console.log("Loale change British",_props.locale)
+  }
     switch (name) {
       case "routing":
-        return new BritishRoutingLambda()
+        return new RoutingLambda()
+      case "supportDevice":
+        return new SupportDeviceLambda()  
       default:
         throw new Error(`invalid lambda name ${name}`);
     }
@@ -25,4 +32,9 @@ export function getLambda(name: string) {
   
   export const routing = async (event: any) => {
     return await getLambda('routing').handler(event,_props);
+  };
+
+
+  export const supportDevice = async (event: any) => {
+    return await getLambda('supportDevice').handler(event,_props);
   };

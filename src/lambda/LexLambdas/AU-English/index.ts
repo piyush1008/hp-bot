@@ -1,5 +1,7 @@
 import { I_ENVprops } from "../../../../model/Ienvprops";
-import { AUEnglsihRoutingLambda } from "./AUEnglish-Routing";
+import { RoutingLambda } from "../lib/RoutingLambda";
+import { SupportDeviceLambda } from "../lib/supportDeviceLambda";
+
 
 
 const _props : I_ENVprops={
@@ -9,12 +11,21 @@ const _props : I_ENVprops={
 }
 
 
+
+
 export function getLambda(name: string) {
 
+  if(_props.Country_code === "NZ")
+  {
+    _props.locale = "en_NZ"
+    console.log("Loale change AU",_props.locale)
+  }
   
     switch (name) {
       case "routing":
-        return new AUEnglsihRoutingLambda()
+        return new RoutingLambda()
+      case "supportDevice":
+        return new SupportDeviceLambda()  
       default:
         throw new Error(`invalid lambda name ${name}`);
     }
@@ -24,6 +35,10 @@ export function getLambda(name: string) {
   
   export const routing = async (event: any) => {
     return await getLambda('routing').handler(event,_props);
+  };
+
+  export const supportDevice = async (event: any) => {
+    return await getLambda('supportDevice').handler(event,_props);
   };
 
 
