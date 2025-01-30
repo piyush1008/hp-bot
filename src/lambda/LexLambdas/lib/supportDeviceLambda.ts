@@ -121,7 +121,8 @@ export class SupportDeviceLambda {
                     // check if session attibute exist we we will not ask Device question
                     console.log("Device name exist",getSessionAttribute(event, "Device_Name") )
                     setSessionAttribute(event, "SupportDevice_intent", event.sessionState.intent.slots.device_Name!.value.interpretedValue!);
-                    updateSlotValue(event ,"device_Name",getSessionAttribute(event, "Device_Name"))
+                    const deviceName = getSessionAttribute(event, "Device_Name");
+                    updateSlotValue(event, "device_Name", deviceName !== undefined ? deviceName : null);
                 }
                 else{
                     return elicitSlot(IntentName, Slots, 'device_Name',"<speak>Are you type of Device calling about is it a scanner <break time='0.1s'/> Chromebook <break time='0.1s'/> Keyboared <break time='0.1s'/> Monitors</speak>", SessionAttributes);

@@ -85,7 +85,7 @@ export const getSessionAttribute=(event: LexV2Event,attributeName: string | null
         return event.sessionState.sessionAttributes?.[attributeName]
     }
     // console.log("did not find the attibute name")
-    return null
+    return undefined
 }
 
 
