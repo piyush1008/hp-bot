@@ -7,6 +7,6 @@ export const DevEuCentral:ApplicationStageProps={
         account: "015021686405",
         region: "eu-central-1",
     },
-    client: "HPC_NL-V2",
+    client: "HPC-NL-V2",
     stage: "dev"
 }
