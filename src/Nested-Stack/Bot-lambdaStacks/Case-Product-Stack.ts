@@ -20,7 +20,7 @@ interface RootStactProp extends cdk.NestedStackProps {
     deployProfileName?: string;
 }
 
-export class SupportedDeviceLambdaStack extends cdk.NestedStack {
+export class ASK_CASE_ProductLambdaStack extends cdk.NestedStack {
   public readonly lambdaFunction: lambda.Function;
   props: any;
 
@@ -78,29 +78,29 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-${props.stage}_supportDevice_US`,
+        functionName: `${props.client}-${props.stage}_Ask_Case_Product_US`,
         botName: "supportDeviceLambdaUS",
         localeId: "en_US",
         countryCode: "US",
-        handler: "supportDevice",
+        handler: "ask_case_product",
         grantLexInvoke: true,
         filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_supportDevice_GB`,
-        botName: "supportDeviceLambdaGB",
+        functionName: `${props.client}-${props.stage}_Ask_Case_Product_GB`,
+        botName: "Ask_Case_ProductGB",
         localeId: "en_GB",
         countryCode: "US",
-        handler: "supportDevice",
+        handler: "ask_case_product",
         grantLexInvoke: true,
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_supportDevice_AU`,
-        botName: "supportDeviceLambdaAU",
+        functionName: `${props.client}-${props.stage}_Ask_Case_Product_AU`,
+        botName: "Ask_Case_ProductAU",
         localeId: "en_AU",
         countryCode: "AU",
-        handler: "supportDevice",
+        handler: "ask_case_product",
         grantLexInvoke: true,
         filePath: "src/lambda/LexLambdas/AU-English/index.ts",
       }

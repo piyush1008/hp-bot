@@ -85,9 +85,18 @@ export const getSessionAttribute=(event: LexV2Event,attributeName: string | null
         return event.sessionState.sessionAttributes?.[attributeName]
     }
     // console.log("did not find the attibute name")
-    return undefined
+    return null
 }
 
+
+export const safelyRemoveAtIndex =(array: any, index: number) => {
+    console.log("Splicing", array ,index)
+    if (array != null && index >= 0 && index < array.length) {
+      array.splice(index, 1)
+      console.log("Spliced 1", array)
+      return array
+    }
+}
 
 export const setSessionAttributeObject=(event: any,attributeName: string , value: number ) =>{
     // console.log("event object",event, attributeName , value)

@@ -78,7 +78,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-RoutingLambdaUS`,
+        functionName: `${props.client}-${props.stage}_RoutingLambda_US`,
         botName: "RoutingLambdaUS",
         localeId: "en_US",
         countryCode: "US",
@@ -87,7 +87,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
-        functionName: `${props.client}-RoutingLambdaGB`,
+        functionName: `${props.client}-${props.stage}_RoutingLambda_GB`,
         botName: "RoutingLambdaGB",
         localeId: "en_GB",
         countryCode: "US",
@@ -96,7 +96,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
       },
       {
-        functionName: `${props.client}-RoutingLambdaAU`,
+        functionName: `${props.client}-${props.stage}_RoutingLambda_AU`,
         botName: "RoutingLambdaAU",
         localeId: "en_AU",
         countryCode: "AU",

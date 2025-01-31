@@ -10,13 +10,14 @@ export class RoutingLambda {
         try {
           const userMessage = getSessionAttribute(event, "InitialInputTranscript");
           console.log("Input Transcript:", userMessage);
-    
+          const textmessage = userMessage !== null ? userMessage : undefined;
+
           const params = {
             botId: "0BI7IUNXWF",
             botAliasId: "NMP0UOWDVN",
             sessionId: event.sessionId,
             localeId: event.bot.localeId,
-            text: userMessage,
+            text: textmessage,
             sessionState: {},
           };
     
