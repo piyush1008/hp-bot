@@ -23,6 +23,7 @@
   "dependencies": {
     "@aws-sdk/client-lex-runtime-v2": "^3.733.0",
     "aws-cdk-lib": "^2.176.0",
-    "constructs": "^10.4.2"
+    "constructs": "^10.4.2",
+    "lambda-warmer": "^2.2.0"
   }
 }

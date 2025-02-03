@@ -3,6 +3,7 @@ import {fulfill,getSessionAttribute, setSessionAttribute,shouldAskAgain } from '
 import { LexV2Event } from "aws-lambda";
 import { LexRuntimeV2Client, RecognizeTextCommand } from "@aws-sdk/client-lex-runtime-v2";
 import { I_ENVprops } from '../../../../model/Ienvprops';
+const warmer = require("lambda-warmer");
 
 export class RoutingLambda {
 
@@ -38,6 +39,10 @@ export class RoutingLambda {
     public async handler(event: LexV2Event,_props: I_ENVprops): Promise<any> {
       
         console.log("Event Details ROUTING:", event);
+        if (await warmer(event)) {
+            console.log("Lambda is warmed up!");
+            return "Lambda warmed";
+        }
       
         const connId = getSessionAttribute(event, "ConnId");
         console.log("ConnId:", connId);

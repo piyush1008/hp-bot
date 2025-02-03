@@ -4,6 +4,8 @@ import { LexV2Event } from "aws-lambda";
 import { LexRuntimeV2Client, RecognizeTextCommand } from "@aws-sdk/client-lex-runtime-v2";
 import { I_ENVprops } from '../../../../model/Ienvprops';
 import { FallbackResponse} from '../../../../model/fallbackresponse';
+const warmer = require("lambda-warmer");
+
 
 export class SupportDeviceLambda {
 
@@ -13,10 +15,11 @@ export class SupportDeviceLambda {
     public async handler(event: LexV2Event,_props: I_ENVprops) {
       try{
           console.log("Event details", JSON.stringify(event))
-        //   if (event.isWarmer) {
-        //     console.log("Warmer event received");
-        //     return "Warm";
-        //   }
+          
+          if (await warmer(event)) {
+            console.log("Lambda is warmed up!");
+            return "Lambda warmed";
+        }
     
           //console.log("ConnId:",getSessionAttribute(event, "ConnId"))
           var IntentName :string = event.sessionState.intent.name

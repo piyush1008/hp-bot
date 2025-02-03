@@ -3,6 +3,7 @@ import {elicitSlot, fulfill,updateSlotValue,getSessionAttribute,setSessionAttrib
 import { LexV2Event } from "aws-lambda";
 import { LexRuntimeV2Client, RecognizeTextCommand } from "@aws-sdk/client-lex-runtime-v2";
 import { I_ENVprops } from '../../../../model/Ienvprops';
+const warmer = require("lambda-warmer");
 
 
 export class ASK_CASE_Product{
@@ -10,7 +11,10 @@ export class ASK_CASE_Product{
 
     public async handler(event: LexV2Event,_props: I_ENVprops): Promise<any> {
         try {
-            // @ts-nocheck
+            if (await warmer(event)) {
+                console.log("Lambda is warmed up!");
+                return "Lambda warmed";
+            }
             console.log("Event details",JSON.stringify(event))
             const intentName = event.sessionState.intent.name;
             const slots = event.sessionState.intent.slots;

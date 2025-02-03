@@ -6,6 +6,8 @@ import path = require('path');
 import { ApplicationStageProps } from "../../../model/ApplicationStageProps";
 import { ILexLambdas } from '../../../model/ILexLambdas';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Rule, RuleTargetInput, Schedule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 
 
 interface RootStactProp extends cdk.NestedStackProps {
@@ -49,6 +51,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
       resources: [`arn:aws:logs:*:${props.env.account}:*:*`],
     }));
 
+
     this.buildLexLambdaDefinitions(props).forEach(config => {
       const lambdaFunction = new NodejsFunction(this, config.functionName!, {
         functionName: config.functionName,
@@ -57,7 +60,8 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
         handler: config.handler, 
         environment: {
           REGION: props.env.region!,
-          ACCOUNT: props.env.account!
+          ACCOUNT: props.env.account!,
+          WARMER_ENABLED: "true"
         },
         role: role, // Attach the IAM Role
       });
@@ -65,6 +69,15 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
       lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
         principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
         action: 'lambda:InvokeFunction',
+      });
+
+      new Rule(this, `${config.functionName}-warmer-rule`, {
+        schedule: Schedule.rate(cdk.Duration.minutes(5)), // Adjust the interval if needed
+        targets: [
+          new LambdaFunction(lambdaFunction, {
+            event: RuleTargetInput.fromObject({ warmer: true }), // Custom warm-up event
+          }),
+        ],
       });
     });
 
