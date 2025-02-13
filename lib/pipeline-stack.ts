@@ -75,12 +75,14 @@ export class HpNlLexLambdasStack extends cdk.Stack {
   public createStage(pipeline:CodePipeline)
   {
       const applicationWave=pipeline.addWave("Application");
+      const botWave = pipeline.addWave('Bots');
 
       for(let i=0;i<this._props.stages.length;i++)
       {
           const stage = this._props.stages[i];
 
           const appStage=new ApplicationStage(this, `hpapp${i+1}`,stage)
+          console.log(`appstage -> ${appStage}`);
           applicationWave.addStage(appStage)
 
       

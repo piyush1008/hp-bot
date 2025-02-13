@@ -23,7 +23,6 @@ function buildStack(){
        new HpNlLexLambdasStack(app, 'hp-nl-v2-dev-lex-lambdas',"hpDev", AppConfig.hpDev );
        break;
 
-
   }
 
 
