@@ -82,8 +82,11 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       // 🔥 Export each Lambda ARN
       new cdk.CfnOutput(this, `${config.functionName}ARN`, {
         value: lambdaFunction.functionArn,
-        exportName: `${config.functionName}ARN`,
+        exportName: `${config.functionName.replace(/_/g, '-')}-ARN`, // ✅ Fixed: Replaced underscores with hyphens
       });
+      
+      console.log(`✅ Created Lambda: ${config.functionName}, ARN: ${lambdaFunction.functionArn}`);
+      
     });
 
 
