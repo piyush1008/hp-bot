@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as lex from 'aws-cdk-lib/aws-lex';
 import { Fn } from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 interface RootStackProps extends cdk.NestedStackProps {
   env: cdk.Environment;
@@ -32,10 +33,20 @@ export class LexBotStack extends cdk.NestedStack {
       throw new Error("❌ One or more Lambda ARNs could not be imported. Ensure `RoutingLambdaStack` is deployed first.");
     }
 
+    const lexBotRole = new iam.Role(this, 'LexBotRole', {
+        assumedBy: new iam.ServicePrincipal('lex.amazonaws.com'),
+      });
+      
+      lexBotRole.addToPolicy(new iam.PolicyStatement({
+        actions: ['lambda:InvokeFunction'],
+        resources: [usLambdaArn, gbLambdaArn, auLambdaArn],
+      }));
+      
+
     // ✅ Create Lex Bot with fulfillment hooks inside `botLocales`
     const bot = new lex.CfnBot(this, 'RoutingBot', {
       name: 'RoutingBot',
-      roleArn: 'arn:aws:iam::123456789012:role/LexBotRole', // Update with actual IAM role
+      roleArn: lexBotRole.roleArn, // Update with actual IAM role
       dataPrivacy: { childDirected: false },
       idleSessionTtlInSeconds: 300,
       botLocales: [
@@ -95,42 +106,42 @@ export class LexBotStack extends cdk.NestedStack {
         sentimentAnalysisSettings: { detectSentiment: true },
         conversationLogSettings: {},
         botAliasLocaleSettings: [
-          {
-            localeId: 'en_US',
-            botAliasLocaleSetting: {
-              enabled: true,
-              codeHookSpecification: {
-                lambdaCodeHook: {
-                  codeHookInterfaceVersion: "1.0",
-                  lambdaArn: usLambdaArn
+            {
+                localeId: 'en_US',
+                botAliasLocaleSetting: {
+                    enabled: true,
+                    codeHookSpecification: {
+                        lambdaCodeHook: {
+                            codeHookInterfaceVersion: "1.0",
+                            lambdaArn: usLambdaArn
+                        }
+                    }
                 }
-              }
-            }
-          },
-          {
-            localeId: 'en_GB',
-            botAliasLocaleSetting: {
-              enabled: true,
-              codeHookSpecification: {
-                lambdaCodeHook: {
-                  codeHookInterfaceVersion: "1.0",
-                  lambdaArn: gbLambdaArn
+            },
+            {
+                localeId: 'en_GB',
+                botAliasLocaleSetting: {
+                    enabled: true,
+                    codeHookSpecification: {
+                        lambdaCodeHook: {
+                            codeHookInterfaceVersion: "1.0",
+                            lambdaArn: gbLambdaArn
+                        }
+                    }
                 }
-              }
-            }
-          },
-          {
-            localeId: 'en_AU',
-            botAliasLocaleSetting: {
-              enabled: true,
-              codeHookSpecification: {
-                lambdaCodeHook: {
-                  codeHookInterfaceVersion: "1.0",
-                  lambdaArn: auLambdaArn
+            },
+            {
+                localeId: 'en_AU',
+                botAliasLocaleSetting: {
+                    enabled: true,
+                    codeHookSpecification: {
+                        lambdaCodeHook: {
+                            codeHookInterfaceVersion: "1.0",
+                            lambdaArn: auLambdaArn
+                        }
+                    }
                 }
-              }
             }
-          }
         ]
       });
   
