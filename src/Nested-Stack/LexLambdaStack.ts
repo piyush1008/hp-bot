@@ -7,6 +7,7 @@ import { ApplicationStageProps } from "../../model/ApplicationStageProps";
 import { RoutingLambdaStack } from './Bot-lambdaStacks/Routing-Lambda-Stack';
 import { SupportedDeviceLambdaStack } from './Bot-lambdaStacks/Supported-Device-Stack';
 import { ASK_CASE_ProductLambdaStack } from './Bot-lambdaStacks/Case-Product-Stack';
+import { LexBotStack } from '../../lib/LexBotStack';
 
 interface RootStactProp extends cdk.NestedStackProps {
     env: cdk.Environment;
@@ -31,7 +32,7 @@ export class LexLambdaStack extends cdk.NestedStack {
     new SupportedDeviceLambdaStack(this, 'SupportedDeviceStack', props)
     new ASK_CASE_ProductLambdaStack(this, 'ASK_CASE_ProductStack', props)
 
-
+    new LexBotStack(this,"LexBotStack",props);
 
   }
 }
