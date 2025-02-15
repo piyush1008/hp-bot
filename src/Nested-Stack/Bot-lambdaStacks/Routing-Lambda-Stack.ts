@@ -82,7 +82,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       // 🔥 Export each Lambda ARN
       new cdk.CfnOutput(this, `${config.functionName}ARN`, {
         value: lambdaFunction.functionArn,
-        exportName: `${config.functionName.replace(/_/g, '-')}-ARN`, // ✅ Fixed: Replaced underscores with hyphens
+        exportName: `${config.functionName}-ARN`, // ✅ Fixed: Replaced underscores with hyphens
       });
       
       console.log(`✅ Created Lambda: ${config.functionName}, ARN: ${lambdaFunction.functionArn}`);
@@ -99,7 +99,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-${props.stage}_RoutingLambda_US`,
+        functionName: `${props.client}-${props.stage}-RoutingLambda-US`,
         botName: "RoutingLambdaUS",
         localeId: "en_US",
         countryCode: "US",
@@ -108,7 +108,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_RoutingLambda_GB`,
+        functionName: `${props.client}-${props.stage}-RoutingLambda-GB`,
         botName: "RoutingLambdaGB",
         localeId: "en_GB",
         countryCode: "US",
@@ -117,7 +117,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_RoutingLambda_AU`,
+        functionName: `${props.client}-${props.stage}-RoutingLambda-AU`,
         botName: "RoutingLambdaAU",
         localeId: "en_AU",
         countryCode: "AU",

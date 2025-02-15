@@ -15,12 +15,7 @@ export class LexBotStack extends cdk.NestedStack {
     super(scope, id, props);
 
     const getLambdaArn = (name: string) => {
-        try {
-          return Fn.importValue(name.replace(/_/g, '-') + "-ARN"); // ✅ Match the fixed export names
-        } catch (error) {
-          console.error(`⚠️ Error importing Lambda ARN for ${name}:`, error);
-          return ''; // Prevents deployment failure
-        }
+        return Fn.importValue(`${name}-ARN`); // Append "-ARN" to the function name
       };
       
       const usLambdaArn = getLambdaArn(`${props.client}-${props.stage}-RoutingLambda-US`);
@@ -29,9 +24,9 @@ export class LexBotStack extends cdk.NestedStack {
 
     console.log("🔍 Imported Lambda ARNs:", { usLambdaArn, gbLambdaArn, auLambdaArn });
 
-    if (!usLambdaArn || !gbLambdaArn || !auLambdaArn) {
-      throw new Error("❌ One or more Lambda ARNs could not be imported. Ensure `RoutingLambdaStack` is deployed first.");
-    }
+    // if (!usLambdaArn || !gbLambdaArn || !auLambdaArn) {
+    //   throw new Error("❌ One or more Lambda ARNs could not be imported. Ensure `RoutingLambdaStack` is deployed first.");
+    // }
 
     const lexBotRole = new iam.Role(this, 'LexBotRole', {
         assumedBy: new iam.ServicePrincipal('lex.amazonaws.com'),
