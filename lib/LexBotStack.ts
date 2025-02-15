@@ -102,6 +102,8 @@ export class LexBotStack extends cdk.NestedStack {
       ]
     });
 
+    console.log(`bot id ${bot.ref}`);
+
     // ✅ Create Bot Alias (No `lambdaCodeHook` here!)
     new lex.CfnBotAlias(this, 'RoutingBotAlias', {
         botAliasName: 'LatestAlias',
