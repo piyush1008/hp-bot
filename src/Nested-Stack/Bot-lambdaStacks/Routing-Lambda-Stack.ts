@@ -78,6 +78,12 @@ export class RoutingLambdaStack extends cdk.NestedStack {
           }),
         ],
       });
+
+      // 🔥 Export each Lambda ARN
+      new cdk.CfnOutput(this, `${config.functionName}ARN`, {
+        value: lambdaFunction.functionArn,
+        exportName: `${config.functionName}ARN`,
+      });
     });
 
 
