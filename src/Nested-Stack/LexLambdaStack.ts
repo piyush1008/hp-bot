@@ -28,11 +28,14 @@ export class LexLambdaStack extends cdk.NestedStack {
     super(scope, id, props);
 
 
-    new RoutingLambdaStack(this, 'RoutingLambdaStack', props)
+    const routingLambdaStack=new RoutingLambdaStack(this, 'RoutingLambdaStack', props)
     new SupportedDeviceLambdaStack(this, 'SupportedDeviceStack', props)
     new ASK_CASE_ProductLambdaStack(this, 'ASK_CASE_ProductStack', props)
 
-    new LexBotStack(this,"LexBotStack",props);
+   const lexBotStack= new LexBotStack(this,"LexBotStack",props);
+
+   // Ensure LexBotStack depends on RoutingLambdaStack
+   lexBotStack.node.addDependency(routingLambdaStack);
 
   }
 }

@@ -39,8 +39,17 @@ export class LexBotStack extends cdk.NestedStack {
       
       lexBotRole.addToPolicy(new iam.PolicyStatement({
         actions: ['lambda:InvokeFunction'],
-        resources: [usLambdaArn, gbLambdaArn, auLambdaArn],
+        resources: ['*'],
       }));
+
+      lexBotRole.assumeRolePolicy?.addStatements(
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          principals: [new iam.ServicePrincipal('lex.amazonaws.com')],
+          actions: ['sts:AssumeRole'],
+        })
+      );
+      
       
 
     // ✅ Create Lex Bot with fulfillment hooks inside `botLocales`
