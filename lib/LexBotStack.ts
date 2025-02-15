@@ -104,12 +104,36 @@ export class LexBotStack extends cdk.NestedStack {
 
     console.log(`bot id ${bot.ref}`);
 
+    const botVersion = new lex.CfnBotVersion(this, 'RoutingBotVersion', {
+        botId: bot.ref,
+        botVersionLocaleSpecification: [
+          {
+            localeId: 'en_US',
+            botVersionLocaleDetails: {
+              sourceBotVersion: 'DRAFT',
+            },
+          },
+          {
+            localeId: 'en_GB',
+            botVersionLocaleDetails: {
+              sourceBotVersion: 'DRAFT',
+            },
+          },
+          {
+            localeId: 'en_AU',
+            botVersionLocaleDetails: {
+              sourceBotVersion: 'DRAFT',
+            },
+          },
+        ],
+      });
+
     // ✅ Create Bot Alias (No `lambdaCodeHook` here!)
     new lex.CfnBotAlias(this, 'RoutingBotAlias', {
         botAliasName: 'LatestAlias',
         botId: bot.ref,
-        botVersion: '$LATEST',
-        sentimentAnalysisSettings: { detectSentiment: true },
+        botVersion: '1',
+        sentimentAnalysisSettings: {},
         conversationLogSettings: {},
         botAliasLocaleSettings: [
             {
