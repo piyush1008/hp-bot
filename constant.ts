@@ -1,1 +1,1 @@
-export const QUALIFIER = "hpl32";
+export const QUALIFIER = "hpl80";

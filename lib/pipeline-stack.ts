@@ -49,24 +49,32 @@ export class HpNlLexLambdasStack extends cdk.Stack {
         },
         timeout: cdk.Duration.minutes(480),
       },
-      synth: new CodeBuildStep("SynthStep", {
-        input: CodePipelineSource.connection(
-          "DTO-BTS-CS-Global-NLIVR/hp-NLIVR-lex-lambdas",
-          githubBranch,
-          {
-              connectionArn:
-                  "arn:aws:codeconnections:us-east-1:015021686405:connection/0514a73c-bf99-47c8-a849-7109667570a0"
-          }
-      ),
+      synth: new ShellStep("deploy", {
+        input: CodePipelineSource.gitHub(`${githubOrg}/${githubRepo}`, githubBranch),
         commands: [ 
-          "n 20.17.0",
-          "node --version",
-          "npm install -g npm",
           "npm ci",
           "npm run build",
-          `npx cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}-cdk-toolkit ${SYNTH_STACK_NAME} -c pipeline=${this._pipelineName}`,
+          `npx cdk synth -c pipeline=${this._pipelineName}`,
         ]
       }),
+      // synth: new CodeBuildStep("SynthStep", {
+      //   input: CodePipelineSource.connection(
+      //     "DTO-BTS-CS-Global-NLIVR/hp-NLIVR-lex-lambdas",
+      //     githubBranch,
+      //     {
+      //         connectionArn:
+      //             "arn:aws:codeconnections:us-east-1:015021686405:connection/0514a73c-bf99-47c8-a849-7109667570a0"
+      //     }
+      // ),
+      //   commands: [ 
+      //     "n 20.17.0",
+      //     "node --version",
+      //     "npm install -g npm",
+      //     "npm ci",
+      //     "npm run build",
+      //     `npx cdk synth --qualifier ${QUALIFIER} --toolkit-stack-name ${QUALIFIER}-cdk-toolkit ${SYNTH_STACK_NAME} -c pipeline=${this._pipelineName}`,
+      //   ]
+      // }),
     });
 
     return pipeline;
