@@ -2,6 +2,12 @@
     "botLocales": [
       {
         "localeId": "en_US",
+        "nluConfidenceThreshold": 0.3,
+        "description": "",
+        "voiceSettings": {
+            "voiceId": "Joanna",
+            "engine": "neural"
+        },
         "slotTypes": [
           {
             "name": "Retention",
@@ -34,6 +40,12 @@
                 "utterance": "I need help with my subscription"
               }
             ],
+            "fulfillmentCodeHook": {
+                "enabled": true
+            },
+            "dialogCodeHook": {
+                "enabled": true
+            },
             "slots": [
               {
                 "name": "cancel",
@@ -42,11 +54,11 @@
                   "obfuscationSettingType": "None"
                 },
                 "valueElicitationSetting": {
-                  "slotConstraint": "Required",
+                  "slotConstraint": "Optional",
                   "promptSpecification": {
                     "maxRetries": 2,
                     "allowInterrupt": true,
-                    "messageGroupsList": [
+                    "messageGroups": [
                       {
                         "message": {
                           "plainTextMessage": {
@@ -58,6 +70,12 @@
                   }
                 }
               }
+            ],
+            "slotPriorities": [
+                {
+                    "priority": 2,
+                    "slotName": "cancel"
+                }
             ]
           }
         ]
