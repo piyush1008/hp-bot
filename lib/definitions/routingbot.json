@@ -17,6 +17,21 @@
             "valueSelectionSetting": {
               "resolutionStrategy": "OriginalValue"
             }
+          },
+          {
+            "name": "Retention",
+            "description": "Slot Type for retention decisions",
+            "slotTypeValues": [
+              {
+                "sampleValue": { "value": "cancel subscription" }
+              },
+              {
+                "sampleValue": { "value": "keep subscription" }
+              }
+            ],
+            "valueSelectionSetting": {
+              "resolutionStrategy": "OriginalValue"
+            }
           }
         ],
         "intents": [
@@ -44,7 +59,15 @@
                         }
                       }
                     ]
-                  }
+                  },
+                  "sampleUtterances": [
+                    {
+                      "utterance": "I want to cancel my subscription"
+                    },
+                    {
+                      "utterance": "Keep my subscription"
+                    }
+                  ]
                 }
               }
             ]
