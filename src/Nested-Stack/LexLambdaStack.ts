@@ -8,6 +8,7 @@ import { RoutingLambdaStack } from './Bot-lambdaStacks/Routing-Lambda-Stack';
 import { SupportedDeviceLambdaStack } from './Bot-lambdaStacks/Supported-Device-Stack';
 import { ASK_CASE_ProductLambdaStack } from './Bot-lambdaStacks/Case-Product-Stack';
 import { LexBotStack } from '../../lib/LexBotStack';
+import { LexBotStack1 } from '../../lib/LexBotStack1';
 
 interface RootStactProp extends cdk.NestedStackProps {
     env: cdk.Environment;
@@ -32,13 +33,22 @@ export class LexLambdaStack extends cdk.NestedStack {
     const supportlambaStack=new SupportedDeviceLambdaStack(this, 'SupportedDeviceStack', props)
     const askCaseProductStack=new ASK_CASE_ProductLambdaStack(this, 'ASK_CASE_ProductStack', props)
 
-   const lexBotStack= new LexBotStack(this,"LexBotStack",props);
+  // const lexBotStack= new LexBotStack(this,"LexBotStack",props);
+
+   const lexBotStack1= new LexBotStack1(this,"LexBotStack",props);
+
 
    // Ensure LexBotStack depends on RoutingLambdaStack
-   lexBotStack.node.addDependency(routingLambdaStack);
-   lexBotStack.node.addDependency(supportlambaStack);
+  //  lexBotStack.node.addDependency(routingLambdaStack);
+  //  lexBotStack.node.addDependency(supportlambaStack);
 
-   lexBotStack.node.addDependency(supportlambaStack);
+  //  lexBotStack.node.addDependency(supportlambaStack);
+
+
+   lexBotStack1.node.addDependency(routingLambdaStack);
+   lexBotStack1.node.addDependency(supportlambaStack);
+
+   lexBotStack1.node.addDependency(supportlambaStack);
 
 
   }

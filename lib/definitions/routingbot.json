@@ -1,0 +1,55 @@
+{
+    "botLocales": [
+      {
+        "localeId": "en_US",
+        "slotTypes": [
+          {
+            "name": "Subscription",
+            "description": "Slot Type to hold answers to subscription program",
+            "slotTypeValues": [
+              {
+                "sampleValue": { "value": "ink program" }
+              },
+              {
+                "sampleValue": { "value": "instant ink" }
+              }
+            ],
+            "valueSelectionSetting": {
+              "resolutionStrategy": "OriginalValue"
+            }
+          }
+        ],
+        "intents": [
+          {
+            "name": "InkRetention",
+            "description": "Select the Ink Retention Contact Flow",
+            "slots": [
+              {
+                "name": "cancel",
+                "slotTypeName": "Retention",
+                "obfuscationSetting": {
+                  "obfuscationSettingType": "None"
+                },
+                "valueElicitationSetting": {
+                  "slotConstraint": "Optional",
+                  "promptSpecification": {
+                    "allowInterrupt": false,
+                    "maxRetries": 2,
+                    "messageGroups": [
+                      {
+                        "message": {
+                          "plainTextMessage": {
+                            "value": "What action would you like to take on your subscription?"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
