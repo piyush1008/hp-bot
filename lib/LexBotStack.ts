@@ -51,7 +51,7 @@ export class LexBotStack extends cdk.NestedStack {
     const bot = new lex.CfnBot(this, 'RoutingBot', {
       name: 'RoutingBot',
       roleArn: lexBotRole.roleArn, // Update with actual IAM role
-      dataPrivacy: { childDirected: false },
+      dataPrivacy: {},
       idleSessionTtlInSeconds: 300,
       botLocales: [
         {
