@@ -68,6 +68,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
         principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
         action: 'lambda:InvokeFunction',
+        sourceArn: `arn:aws:lex:${props.env.region}:${props.env.account}:bot-alias/*`,
       });
 
       new Rule(this, `${config.functionName}-warmer-rule`, {
@@ -77,13 +78,6 @@ export class RoutingLambdaStack extends cdk.NestedStack {
             event: RuleTargetInput.fromObject({ warmer: true }), // Custom warm-up event
           }),
         ],
-      });
-
-      // Add permission for Lex to invoke the Lambda function
-      lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
-        principal: new iam.ServicePrincipal('lex.amazonaws.com'),
-        action: 'lambda:InvokeFunction',
-        sourceArn: `arn:aws:lex:${props.env.region}:${props.env.account}:bot-alias/*`, // Allow all bot aliases
       });
 
       // 🔥 Export each Lambda ARN
