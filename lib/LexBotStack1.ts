@@ -98,6 +98,7 @@ console.log("Processed botLocales:", botLocales1);
         })),
         intents: (locale.intents || []).map((intent: any) => ({
           name: intent.name,
+          parentIntentSignature: intent.parentIntentSignature || undefined,
           description: intent.description || '',
           sampleUtterances: (intent.sampleUtterances || []).map((utterance: any) => ({
             utterance: utterance.utterance || '',
