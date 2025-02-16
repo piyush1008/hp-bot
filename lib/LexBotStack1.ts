@@ -30,6 +30,10 @@ export class LexBotStack1 extends cdk.NestedStack {
 
     // Read the bot configuration from the JSON file
     const botConfigPath = path.join(__dirname, 'definitions', 'routingbot.json');
+
+    if (!fs.existsSync(botConfigPath)) {
+      throw new Error(`Bot config file not found at: ${botConfigPath}`);
+    }
     const botConfig:BotConfig= JSON.parse(fs.readFileSync(botConfigPath, 'utf-8'));
 
     console.log("Bot Config Path:", botConfigPath);
@@ -81,51 +85,56 @@ console.log("Processed botLocales:", botLocales1);
     const botLocales = botConfig.botLocales.map((locale: any) => {
       return {
         localeId: locale.localeId,
-        nluConfidenceThreshold: locale.nluConfidenceThreshold,
-        slotTypes: locale.slotTypes.map((slotType: any) => ({
+        nluConfidenceThreshold: locale.nluConfidenceThreshold ?? 0.4, // Default threshold
+        slotTypes: (locale.slotTypes || []).map((slotType: any) => ({
           name: slotType.name,
           description: slotType.description || '',
-          slotTypeValues: slotType.slotTypeValues.map((value: any) => ({
-            sampleValue: { value: value.sampleValue.value },
-            synonyms: value.synonyms?.map((synonym: any) => ({ value: synonym.value })) || [],
+          slotTypeValues: (slotType.slotTypeValues || []).map((value: any) => ({
+            sampleValue: { value: value.sampleValue?.value || '' }, 
+            synonyms: (value.synonyms || []).map((synonym: any) => ({ value: synonym.value || '' })),
           })),
           valueSelectionSetting: {
-            resolutionStrategy: slotType.valueSelectionSetting.resolutionStrategy,
+            resolutionStrategy: slotType.valueSelectionSetting?.resolutionStrategy || 'ORIGINAL_VALUE',
           },
         })),
-        intents: locale.intents.map((intent: any) => {
-          return {
-            name: intent.name,
-            description: intent.description || '',
-            sampleUtterances: intent.sampleUtterances.map((utterance: any) => ({
-              utterance: utterance.utterance,
-            })),
-            fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook.enabled },
-            dialogCodeHook: { enabled: intent.dialogCodeHook.enabled },
-            slots: intent.slots.map((slot: any) => ({
-              name: slot.name,
-              slotTypeName: slot.slotTypeName,
-              valueElicitationSetting: {
-                slotConstraint: slot.valueElicitationSetting.slotConstraint,
-                promptSpecification: {
-                  messageGroups: slot.valueElicitationSetting.promptSpecification.messageGroups.map((group: any) => ({
-                    message: {
-                      plainTextMessage: { value: group.message.plainTextMessage.value },
-                    },
-                  })),
-                  maxRetries: slot.valueElicitationSetting.promptSpecification.maxRetries,
-                  allowInterrupt: slot.valueElicitationSetting.promptSpecification.allowInterrupt,
-                },
-              },
-              obfuscationSetting: {
-                obfuscationSettingType: slot.obfuscationSetting.obfuscationSettingType,
-              },
-            })),
-          };
-        }),
-        voiceSettings: locale.voiceSettings,
+        intents: (locale.intents || []).map((intent: any) => ({
+          name: intent.name,
+          description: intent.description || '',
+          sampleUtterances: (intent.sampleUtterances || []).map((utterance: any) => ({
+            utterance: utterance.utterance || '',
+          })),
+          fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook?.enabled || false },
+          dialogCodeHook: { enabled: intent.dialogCodeHook?.enabled || false },
+          slots: (intent.slots || []).map((slot: any) => ({
+            name: slot.name,
+            slotTypeName: slot.slotTypeName,
+            valueElicitationSetting: slot.valueElicitationSetting
+              ? {
+                  slotConstraint: slot.valueElicitationSetting.slotConstraint || 'Optional',
+                  promptSpecification: slot.valueElicitationSetting.promptSpecification
+                    ? {
+                        messageGroups: (slot.valueElicitationSetting.promptSpecification.messageGroups || []).map(
+                          (group: any) => ({
+                            message: {
+                              plainTextMessage: { value: group.message?.plainTextMessage?.value || '' },
+                            },
+                          })
+                        ),
+                        maxRetries: slot.valueElicitationSetting.promptSpecification.maxRetries ?? 2,
+                        allowInterrupt: slot.valueElicitationSetting.promptSpecification.allowInterrupt ?? true,
+                      }
+                    : undefined,
+                }
+              : undefined,
+            obfuscationSetting: slot.obfuscationSetting
+              ? { obfuscationSettingType: slot.obfuscationSetting.obfuscationSettingType || 'DefaultObfuscation' }
+              : undefined,
+          })),
+        })),
+        voiceSettings: locale.voiceSettings || undefined,
       };
     });
+    
 
     // Create Lex Bot with dynamic locales, slot types, and slots
     const bot = new lex.CfnBot(this, 'RoutingBot', {
