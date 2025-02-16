@@ -113,7 +113,7 @@ console.log("Processed botLocales:", botLocales1);
                   slotConstraint: slot.valueElicitationSetting.slotConstraint || 'Optional',
                   promptSpecification: slot.valueElicitationSetting.promptSpecification
                     ? {
-                        messageGroups: (slot.valueElicitationSetting.promptSpecification.messageGroups || []).map(
+                      messageGroupsList: (slot.valueElicitationSetting.promptSpecification.messageGroupsList || []).map(
                           (group: any) => ({
                             message: {
                               plainTextMessage: { value: group.message?.plainTextMessage?.value || '' },

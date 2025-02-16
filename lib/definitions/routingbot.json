@@ -58,7 +58,7 @@
                   "promptSpecification": {
                     "maxRetries": 2,
                     "allowInterrupt": true,
-                    "messageGroups": [
+                    "messageGroupsList": [
                       {
                         "message": {
                           "plainTextMessage": {
