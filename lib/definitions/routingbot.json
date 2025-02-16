@@ -4,29 +4,14 @@
         "localeId": "en_US",
         "slotTypes": [
           {
-            "name": "Subscription",
-            "description": "Slot Type to hold answers to subscription program",
-            "slotTypeValues": [
-              {
-                "sampleValue": { "value": "ink program" }
-              },
-              {
-                "sampleValue": { "value": "instant ink" }
-              }
-            ],
-            "valueSelectionSetting": {
-              "resolutionStrategy": "OriginalValue"
-            }
-          },
-          {
             "name": "Retention",
-            "description": "Slot Type for retention decisions",
+            "description": "Slot Type to hold user retention actions",
             "slotTypeValues": [
               {
-                "sampleValue": { "value": "cancel subscription" }
+                "sampleValue": { "value": "cancel my subscription" }
               },
               {
-                "sampleValue": { "value": "keep subscription" }
+                "sampleValue": { "value": "pause my plan" }
               }
             ],
             "valueSelectionSetting": {
@@ -38,6 +23,17 @@
           {
             "name": "InkRetention",
             "description": "Select the Ink Retention Contact Flow",
+            "sampleUtterances": [
+              {
+                "utterance": "I want to cancel my subscription"
+              },
+              {
+                "utterance": "How do I pause my ink plan?"
+              },
+              {
+                "utterance": "I need help with my subscription"
+              }
+            ],
             "slots": [
               {
                 "name": "cancel",
@@ -46,11 +42,11 @@
                   "obfuscationSettingType": "None"
                 },
                 "valueElicitationSetting": {
-                  "slotConstraint": "Optional",
+                  "slotConstraint": "Required",
                   "promptSpecification": {
-                    "allowInterrupt": false,
                     "maxRetries": 2,
-                    "messageGroupsList": [  
+                    "allowInterrupt": true,
+                    "messageGroupsList": [
                       {
                         "message": {
                           "plainTextMessage": {
@@ -59,15 +55,7 @@
                         }
                       }
                     ]
-                  },
-                  "sampleUtterances": [
-                    {
-                      "utterance": "I want to cancel my subscription"
-                    },
-                    {
-                      "utterance": "Keep my subscription"
-                    }
-                  ]
+                  }
                 }
               }
             ]
