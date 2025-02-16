@@ -145,7 +145,7 @@ export class LexBotStack extends cdk.NestedStack {
         botAliasName: 'LatestAlias',
         botId: bot.ref,
         botVersion: botVersion.attrBotVersion,
-        sentimentAnalysisSettings: {},
+        //sentimentAnalysisSettings: {detectSentiment: true, },
         conversationLogSettings: {},
         botAliasLocaleSettings: [
             {
