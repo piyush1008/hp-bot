@@ -65,7 +65,11 @@ export class LexBotStack extends cdk.NestedStack {
                 { utterance: 'Can you help me with routing?' }
               ],
               fulfillmentCodeHook: { enabled: true }
-            }
+            },
+            {
+                name: 'FallbackIntent',
+                parentIntentSignature: 'AMAZON.FallbackIntent',
+              }
           ],
           voiceSettings: { voiceId: 'Joanna' },
         },
@@ -80,7 +84,11 @@ export class LexBotStack extends cdk.NestedStack {
                 { utterance: 'How do I route calls in the UK?' }
               ],
               fulfillmentCodeHook: { enabled: true }
-            }
+            },
+            {
+                name: 'FallbackIntent',
+                parentIntentSignature: 'AMAZON.FallbackIntent',
+              }
           ],
           voiceSettings: { voiceId: 'Amy' },
         },
@@ -95,7 +103,11 @@ export class LexBotStack extends cdk.NestedStack {
                 { utterance: 'Routing help for Australia' }
               ],
               fulfillmentCodeHook: { enabled: true }
-            }
+            },
+            {
+                name: 'FallbackIntent',
+                parentIntentSignature: 'AMAZON.FallbackIntent',
+              }
           ],
           voiceSettings: { voiceId: 'Nicole' },
         }
