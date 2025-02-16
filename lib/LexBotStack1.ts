@@ -80,7 +80,6 @@ console.log("Processed botLocales:", botLocales1);
     console.log("Bot Config bot Locales:", JSON.stringify(botConfig.botLocales, null, 2));
 
 
-
     // Dynamically generate bot locales from the JSON configuration
     const botLocales = botConfig.botLocales.map((locale: any) => {
       return {
