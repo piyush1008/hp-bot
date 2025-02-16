@@ -132,7 +132,7 @@ export class LexBotStack extends cdk.NestedStack {
     new lex.CfnBotAlias(this, 'RoutingBotAlias', {
         botAliasName: 'LatestAlias',
         botId: bot.ref,
-        botVersion: '1',
+        botVersion: botVersion.attrBotVersion,
         sentimentAnalysisSettings: {},
         conversationLogSettings: {},
         botAliasLocaleSettings: [
