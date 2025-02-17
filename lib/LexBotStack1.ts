@@ -88,8 +88,10 @@ console.log("Processed botLocales:", botLocales1);
           name: slotType.name,
           description: slotType.description || '',
           slotTypeValues: (slotType.slotTypeValues || []).map((value: any) => ({
-            sampleValue: { value: value.sampleValue?.value || '' }, 
-            synonyms: (value.synonyms || []).map((synonym: any) => ({ value: synonym.value || '' })),
+            sampleValue: { value: value.sampleValue?.value || '' },
+            synonyms: value.synonyms && value.synonyms.length > 0 
+              ? value.synonyms.map((synonym: any) => ({ value: synonym.value || '' }))
+              : null, // Ensure it's null if empty
           })),
           valueSelectionSetting: {
             resolutionStrategy: slotType.valueSelectionSetting?.resolutionStrategy || 'ORIGINAL_VALUE',
@@ -112,7 +114,7 @@ console.log("Processed botLocales:", botLocales1);
                   slotConstraint: slot.valueElicitationSetting.slotConstraint || 'Optional',
                   promptSpecification: slot.valueElicitationSetting.promptSpecification
                     ? {
-                      messageGroupsList: (slot.valueElicitationSetting.promptSpecification.messageGroupsList || []).map(
+                        messageGroupsList: (slot.valueElicitationSetting.promptSpecification.messageGroupsList || []).map(
                           (group: any) => ({
                             message: {
                               plainTextMessage: { value: group.message?.plainTextMessage?.value || '' },
