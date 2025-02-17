@@ -20,6 +20,8 @@ interface RootStactProp extends cdk.NestedStackProps {
     oauthApiEndpoint?: string;
     oauthCredsName?: string;
     deployProfileName?: string;
+    fileName?:string;
+    botName?:string;
 }
 
 export class LexLambdaStack extends cdk.NestedStack {

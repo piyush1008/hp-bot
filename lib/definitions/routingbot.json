@@ -1,4 +1,11 @@
 {
+    "name": "Route_RoutingBot",
+    "dataPrivacy": {
+        "childDirected": false
+    },
+    "roleArn": null,
+    "description": "route based on intents for department bots.",
+    "idleSessionTtlInSeconds": 300,
     "botLocales": [
       {
         "localeId": "en_US",
