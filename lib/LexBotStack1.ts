@@ -76,7 +76,6 @@ console.log("Processed botLocales:", botLocales1);
     );
 
     console.log("Bot Config:", JSON.stringify(botConfig, null, 2));
-
     console.log("Bot Config bot Locales:", JSON.stringify(botConfig.botLocales, null, 2));
 
 
