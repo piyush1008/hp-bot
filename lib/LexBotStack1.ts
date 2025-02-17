@@ -97,41 +97,54 @@ console.log("Processed botLocales:", botLocales1);
             resolutionStrategy: slotType.valueSelectionSetting?.resolutionStrategy || 'ORIGINAL_VALUE',
           },
         })),
-        intents: (locale.intents || []).map((intent: any) => ({
-          name: intent.name,
-          parentIntentSignature: intent.parentIntentSignature || undefined,
-          description: intent.description || '',
-          sampleUtterances: (intent.sampleUtterances || []).map((utterance: any) => ({
-            utterance: utterance.utterance || '',
-          })),
-          fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook?.enabled || false },
-          dialogCodeHook: { enabled: intent.dialogCodeHook?.enabled || false },
-          slots: (intent.slots || []).map((slot: any) => ({
-            name: slot.name,
-            slotTypeName: slot.slotTypeName,
-            valueElicitationSetting: slot.valueElicitationSetting
-              ? {
-                  slotConstraint: slot.valueElicitationSetting.slotConstraint || 'Optional',
-                  promptSpecification: slot.valueElicitationSetting.promptSpecification
-                    ? {
-                        messageGroupsList: (slot.valueElicitationSetting.promptSpecification.messageGroupsList || []).map(
-                          (group: any) => ({
-                            message: {
-                              plainTextMessage: { value: group.message?.plainTextMessage?.value || '' },
-                            },
-                          })
-                        ),
-                        maxRetries: slot.valueElicitationSetting.promptSpecification.maxRetries ?? 2,
-                        allowInterrupt: slot.valueElicitationSetting.promptSpecification.allowInterrupt ?? true,
-                      }
-                    : undefined,
-                }
-              : undefined,
-            obfuscationSetting: slot.obfuscationSetting
-              ? { obfuscationSettingType: slot.obfuscationSetting.obfuscationSettingType || 'DefaultObfuscation' }
-              : undefined,
-          })),
-        })),
+        intents: (locale.intents || []).map((intent: any) => {
+          // Handle built-in FallbackIntent separately
+          if (intent.name === 'FallbackIntent') {
+            return {
+              name: intent.name,
+              fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook?.enabled || false },
+              dialogCodeHook: { enabled: intent.dialogCodeHook?.enabled || false },
+              intentClosingSetting: intent.intentClosingSetting || undefined, // Optional
+            };
+          }
+        
+          return {
+            name: intent.name,
+            parentIntentSignature: intent.parentIntentSignature || undefined,
+            description: intent.description || '',
+            sampleUtterances: (intent.sampleUtterances || []).map((utterance: any) => ({
+              utterance: utterance.utterance || '',
+            })),
+            fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook?.enabled || false },
+            dialogCodeHook: { enabled: intent.dialogCodeHook?.enabled || false },
+            slots: (intent.slots || []).map((slot: any) => ({
+              name: slot.name,
+              slotTypeName: slot.slotTypeName,
+              valueElicitationSetting: slot.valueElicitationSetting
+                ? {
+                    slotConstraint: slot.valueElicitationSetting.slotConstraint || 'Optional',
+                    promptSpecification: slot.valueElicitationSetting.promptSpecification
+                      ? {
+                          messageGroupsList: (slot.valueElicitationSetting.promptSpecification.messageGroupsList || []).map(
+                            (group: any) => ({
+                              message: {
+                                plainTextMessage: { value: group.message?.plainTextMessage?.value || '' },
+                              },
+                            })
+                          ),
+                          maxRetries: slot.valueElicitationSetting.promptSpecification.maxRetries ?? 2,
+                          allowInterrupt: slot.valueElicitationSetting.promptSpecification.allowInterrupt ?? true,
+                        }
+                      : undefined,
+                  }
+                : undefined,
+              obfuscationSetting: slot.obfuscationSetting
+                ? { obfuscationSettingType: slot.obfuscationSetting.obfuscationSettingType || 'DefaultObfuscation' }
+                : undefined,
+            })),
+          };
+        }),
+        
         voiceSettings: locale.voiceSettings || undefined,
       };
     });
