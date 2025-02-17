@@ -67,10 +67,11 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
       });
     
       lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
-        principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
+        principal: new iam.ServicePrincipal('lex.amazonaws.com'),
         action: 'lambda:InvokeFunction',
+        sourceArn: `arn:aws:lex:${props.env.region}:${props.env.account}:bot-alias/*`,
       });
-
+      
       new Rule(this, `${config.functionName}-warmer-rule`, {
         schedule: Schedule.rate(cdk.Duration.minutes(5)), // Adjust the interval if needed
         targets: [
@@ -79,6 +80,14 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
           }),
         ],
       });
+
+      // 🔥 Export each Lambda ARN
+      new cdk.CfnOutput(this, `${config.functionName}ARN`, {
+        value: lambdaFunction.functionArn,
+        exportName: `${config.functionName}-ARN`, // ✅ Fixed: Replaced underscores with hyphens
+      });
+      
+      console.log(`✅ Created Lambda: ${config.functionName}, ARN: ${lambdaFunction.functionArn}`);
     });
 
 
@@ -91,7 +100,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-${props.stage}-supportDevice-US`,
+        functionName: `${props.client}-${props.stage}-SupportDeviceLambda-US`,
         botName: "supportDeviceLambdaUS",
         localeId: "en_US",
         countryCode: "US",
@@ -100,7 +109,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}-supportDevice-GB`,
+        functionName: `${props.client}-${props.stage}-SupportDeviceLambda-GB`,
         botName: "supportDeviceLambdaGB",
         localeId: "en_GB",
         countryCode: "US",
@@ -109,7 +118,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}-supportDevice-AU`,
+        functionName: `${props.client}-${props.stage}-SupportDeviceLambda-AU`,
         botName: "supportDeviceLambdaAU",
         localeId: "en_AU",
         countryCode: "AU",
