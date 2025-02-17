@@ -89,9 +89,9 @@ console.log("Processed botLocales:", botLocales1);
           description: slotType.description || '',
           slotTypeValues: (slotType.slotTypeValues || []).map((value: any) => ({
             sampleValue: { value: value.sampleValue?.value || '' },
-            synonyms: value.synonyms && value.synonyms.length > 0 
+            synonyms: Array.isArray(value.synonyms) && value.synonyms.length > 0 
               ? value.synonyms.map((synonym: any) => ({ value: synonym.value || '' }))
-              : null, // Ensure it's null if empty
+              : undefined, // Set it to undefined instead of null
           })),
           valueSelectionSetting: {
             resolutionStrategy: slotType.valueSelectionSetting?.resolutionStrategy || 'ORIGINAL_VALUE',
