@@ -14,12 +14,10 @@
             "description": "Slot Type to hold user retention actions",
             "slotTypeValues": [
               {
-                "sampleValue": { "value": "cancel my subscription" },
-                "synonyms": [{ "value": "end my plan" }]
+                "sampleValue": { "value": "cancel my subscription" }
               },
               {
-                "sampleValue": { "value": "pause my plan" },
-                "synonyms": [{ "value": "hold my subscription" }]
+                "sampleValue": { "value": "pause my plan" }
               }
             ],
             "valueSelectionSetting": {
