@@ -96,7 +96,7 @@
         "nluConfidenceThreshold": 0.3,
         "description": "",
         "voiceSettings": {
-            "voiceId": "Joanna",
+            "voiceId": "Emma",
             "engine": "neural"
         },
         "slotTypes": [
