@@ -99,7 +99,7 @@ console.log("Processed botLocales:", botLocales1);
         })),
         intents: (locale.intents || []).map((intent: any) => {
           // Handle built-in FallbackIntent separately
-          if (intent.name === 'CustomFallbackIntent') {
+          if (intent.name === 'FallbackIntent'  || intent.parentIntentSignature==="AMAZON.FallbackIntent") {
             return {
               name: intent.name,
               parentIntentSignature: intent.parentIntentSignature || undefined,
