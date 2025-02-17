@@ -73,7 +73,7 @@
             ],
             "slotPriorities": [
                 {
-                    "priority": 2,
+                    "priority": 1,
                     "slotName": "cancel"
                 }
             ]

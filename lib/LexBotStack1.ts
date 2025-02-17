@@ -143,6 +143,10 @@ console.log("Processed botLocales:", botLocales1);
                 ? { obfuscationSettingType: slot.obfuscationSetting.obfuscationSettingType || 'DefaultObfuscation' }
                 : undefined,
             })),
+            slotPriorities: (intent.slotPriorities || []).map((priority: any) => ({
+              priority: priority.priority || 1, // Default priority if not specified
+              slotName: priority.slotName,
+            })),
           };
         }),
         
