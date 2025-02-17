@@ -102,6 +102,7 @@ console.log("Processed botLocales:", botLocales1);
           if (intent.name === 'CustomFallbackIntent') {
             return {
               name: intent.name,
+              parentIntentSignature: intent.parentIntentSignature || undefined,
               fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook?.enabled || false },
               dialogCodeHook: { enabled: intent.dialogCodeHook?.enabled || false },
               intentClosingSetting: intent.intentClosingSetting || undefined, // Optional
