@@ -99,7 +99,7 @@ console.log("Processed botLocales:", botLocales1);
         })),
         intents: (locale.intents || []).map((intent: any) => {
           // Handle built-in FallbackIntent separately
-          if (intent.name === 'FallbackIntent') {
+          if (intent.name === 'CustomFallbackIntent') {
             return {
               name: intent.name,
               fulfillmentCodeHook: { enabled: intent.fulfillmentCodeHook?.enabled || false },

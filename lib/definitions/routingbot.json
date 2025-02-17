@@ -81,7 +81,7 @@
             ]
           },
           {
-            "name": "FallbackIntent",
+            "name": "CustomFallbackIntent",
             "parentIntentSignature": "AMAZON.FallbackIntent",
             "description": "Have the fallback intent call the lambda",
             "fulfillmentCodeHook": {
