@@ -90,7 +90,7 @@ export class ASK_CASE_ProductLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-${props.stage}_Ask_Case_Product_US`,
+        functionName: `${props.client}-${props.stage}-AskCaseProduct-US`,
         botName: "supportDeviceLambdaUS",
         localeId: "en_US",
         countryCode: "US",
@@ -99,7 +99,7 @@ export class ASK_CASE_ProductLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_Ask_Case_Product_GB`,
+        functionName: `${props.client}-${props.stage}-AskCaseProduct-GB`,
         botName: "Ask_Case_ProductGB",
         localeId: "en_GB",
         countryCode: "US",
@@ -108,7 +108,7 @@ export class ASK_CASE_ProductLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_Ask_Case_Product_AU`,
+        functionName: `${props.client}-${props.stage}-AskCaseProduct-AU`,
         botName: "Ask_Case_ProductAU",
         localeId: "en_AU",
         countryCode: "AU",

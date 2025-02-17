@@ -91,7 +91,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
   private buildLexLambdaDefinitions(props: RootStactProp): ILexLambdas[] {
     return [
       {
-        functionName: `${props.client}-${props.stage}_supportDevice_US`,
+        functionName: `${props.client}-${props.stage}-supportDevice-US`,
         botName: "supportDeviceLambdaUS",
         localeId: "en_US",
         countryCode: "US",
@@ -100,7 +100,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_supportDevice_GB`,
+        functionName: `${props.client}-${props.stage}-supportDevice-GB`,
         botName: "supportDeviceLambdaGB",
         localeId: "en_GB",
         countryCode: "US",
@@ -109,7 +109,7 @@ export class SupportedDeviceLambdaStack extends cdk.NestedStack {
         filePath: "src/lambda/LexLambdas/british-english/index.ts",
       },
       {
-        functionName: `${props.client}-${props.stage}_supportDevice_AU`,
+        functionName: `${props.client}-${props.stage}-supportDevice-AU`,
         botName: "supportDeviceLambdaAU",
         localeId: "en_AU",
         countryCode: "AU",
