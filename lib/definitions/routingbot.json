@@ -81,7 +81,7 @@
             ]
           },
           {
-            "name": "CustomFallbackIntent",
+            "name": "FallbackIntent",
             "parentIntentSignature": "AMAZON.FallbackIntent",
             "description": "Have the fallback intent call the lambda",
             "fulfillmentCodeHook": {
@@ -89,8 +89,7 @@
             },
             "dialogCodeHook": {
               "enabled": true
-            },
-            "slotPriorities": []
+            }
           }
         ]
       }
