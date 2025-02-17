@@ -15,11 +15,11 @@
             "slotTypeValues": [
               {
                 "sampleValue": { "value": "cancel my subscription" },
-                "synonyms": []
+                "synonyms": [{ "value": "end my plan" }]
               },
               {
                 "sampleValue": { "value": "pause my plan" },
-                "synonyms": []
+                "synonyms": [{ "value": "hold my subscription" }]
               }
             ],
             "valueSelectionSetting": {
