@@ -5,14 +5,25 @@ import { Fn } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as fs from 'fs';
 import * as path from 'path';
+import { RootStactProp } from '../src/Nested-Stack/LexLambdaStack';
 
-interface RootStackProps extends cdk.NestedStackProps {
+interface RootStackProps extends RootStactProp {
   env: cdk.Environment;
   client: string;
   stage: string;
+  fileName: string;
+  botname:string;
+  LambdaName:string;
 }
 
 interface BotConfig {
+  name: string;
+  idleSessionTtlInSeconds: number;
+  description?: string;
+  roleArn: null;
+  dataPrivacy:{
+    childDirected: boolean;
+  }
   botLocales: {
     localeId: string;
     slotTypes?: any[];
@@ -29,7 +40,7 @@ export class LexBotStack1 extends cdk.NestedStack {
     };
 
     // Read the bot configuration from the JSON file
-    const botConfigPath = path.join(__dirname, 'definitions', 'routingbot.json');
+    const botConfigPath = path.join(__dirname, 'definitions',  props.fileName);
 
     if (!fs.existsSync(botConfigPath)) {
       throw new Error(`Bot config file not found at: ${botConfigPath}`);
@@ -156,16 +167,16 @@ console.log("Processed botLocales:", botLocales1);
     
 
     // Create Lex Bot with dynamic locales, slot types, and slots
-    const bot = new lex.CfnBot(this, 'RoutingBot', {
-      name: 'RoutingBot',
+    const bot = new lex.CfnBot(this, botConfig.name, {
+      name: botConfig.name,
       roleArn: lexBotRole.roleArn,
       dataPrivacy: { ChildDirected: false },
-      idleSessionTtlInSeconds: 300,
+      idleSessionTtlInSeconds: botConfig.idleSessionTtlInSeconds,
       botLocales: botLocales,
     });
 
     // Create Bot Version
-    const botVersion = new lex.CfnBotVersion(this, 'RoutingBotVersion', {
+    const botVersion = new lex.CfnBotVersion(this, `${props.botname}Version`, {
       botId: bot.ref,
       botVersionLocaleSpecification: botConfig.botLocales.map((locale: any) => {
         return {
@@ -179,8 +190,9 @@ console.log("Processed botLocales:", botLocales1);
 
     // Dynamically generate bot alias settings
     const botAliasLocaleSettings = botConfig.botLocales.map((locale: any) => {
-      const lambdaArn = getLambdaArn(`${props.client}-${props.stage}-RoutingLambda-${locale.localeId.split('_')[1]}`);
-      return {
+     // const lambdaArn = getLambdaArn(`${props.client}-${props.stage}-RoutingLambda-${locale.localeId.split('_')[1]}`);
+     const lambdaArn = getLambdaArn(`${props.client}-${props.stage}-${props.LambdaName}-${locale.localeId.split('_')[1]}`);
+      return {  
         localeId: locale.localeId,
         botAliasLocaleSetting: {
           enabled: true,
@@ -195,7 +207,7 @@ console.log("Processed botLocales:", botLocales1);
     });
 
     // Create Bot Alias
-    const botAlias = new lex.CfnBotAlias(this, 'RoutingBotAlias', {
+    const botAlias = new lex.CfnBotAlias(this, `${props.botname}Alias`, {
       botAliasName: 'LatestAlias',
       botId: bot.ref,
       botVersion: botVersion.attrBotVersion,

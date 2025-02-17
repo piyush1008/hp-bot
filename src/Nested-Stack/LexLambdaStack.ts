@@ -10,7 +10,7 @@ import { ASK_CASE_ProductLambdaStack } from './Bot-lambdaStacks/Case-Product-Sta
 import { LexBotStack } from '../../lib/LexBotStack';
 import { LexBotStack1 } from '../../lib/LexBotStack1';
 
-interface RootStactProp extends cdk.NestedStackProps {
+export interface RootStactProp extends cdk.NestedStackProps {
     env: cdk.Environment;
     client: string;
     production?: boolean;
@@ -21,7 +21,8 @@ interface RootStactProp extends cdk.NestedStackProps {
     oauthCredsName?: string;
     deployProfileName?: string;
     fileName?:string;
-    botName?:string;
+    botname?:string;
+    LambdaName?:string;
 }
 
 export class LexLambdaStack extends cdk.NestedStack {
@@ -37,7 +38,9 @@ export class LexLambdaStack extends cdk.NestedStack {
 
   // const lexBotStack= new LexBotStack(this,"LexBotStack",props);
 
-   const lexBotStack1= new LexBotStack1(this,"LexBotStack",props);
+  const props1={...props, fileName: "routingbot.json", botname:"RoutingBot", LambdaName: "RoutingLambda"}
+
+   const lexBotStack1= new LexBotStack1(this,"LexBotStack",props1);
 
 
    // Ensure LexBotStack depends on RoutingLambdaStack
