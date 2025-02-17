@@ -66,7 +66,7 @@ export class RoutingLambdaStack extends cdk.NestedStack {
       });
     
       lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
-        principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
+        principal: new iam.ServicePrincipal('lex.amazonaws.com'),
         action: 'lambda:InvokeFunction',
         sourceArn: `arn:aws:lex:${props.env.region}:${props.env.account}:bot-alias/*`,
       });
