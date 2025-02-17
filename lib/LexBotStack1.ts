@@ -219,9 +219,9 @@ console.log("Processed botLocales:", botLocales1);
     botAlias.node.addDependency(botVersion);
 
     // Output the bot alias ID for debugging
-    new cdk.CfnOutput(this, 'LexBotAliasID', {
+    new cdk.CfnOutput(this, `${props.botname}AliasID`, {
       value: bot.ref,
-      exportName: `${props.client}-${props.stage}-LexBotAliasID`,
+      exportName: `${props.client}-${props.stage}-${props.botname}-LexBotAliasID`,
     });
 
     console.log("✅ Successfully deployed LexBotStack.");
