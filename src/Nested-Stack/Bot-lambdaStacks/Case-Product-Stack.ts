@@ -66,8 +66,9 @@ export class ASK_CASE_ProductLambdaStack extends cdk.NestedStack {
       });
     
       lambdaFunction.addPermission(`${config.functionName}LexPermission`, {
-        principal: new iam.ServicePrincipal('lambda.amazonaws.com'),
+        principal: new iam.ServicePrincipal('lex.amazonaws.com'),
         action: 'lambda:InvokeFunction',
+        sourceArn: `arn:aws:lex:${props.env.region}:${props.env.account}:bot-alias/*`,
       });
 
       new Rule(this, `${config.functionName}-warmer-rule`, {
@@ -78,6 +79,13 @@ export class ASK_CASE_ProductLambdaStack extends cdk.NestedStack {
           }),
         ],
       });
+
+      new cdk.CfnOutput(this, `${config.functionName}ARN`, {
+        value: lambdaFunction.functionArn,
+        exportName: `${config.functionName}-ARN`, // ✅ Fixed: Replaced underscores with hyphens
+      });
+      
+      console.log(`✅ Created Lambda: ${config.functionName}, ARN: ${lambdaFunction.functionArn}`);
     });
 
 
