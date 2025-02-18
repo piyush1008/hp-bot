@@ -1,0 +1,285 @@
+{
+    "name": "AskCaseProductBot",
+    "dataPrivacy": {
+        "childDirected": false
+    },
+    "roleArn": null,
+    "description": "route based on intents for department bots.",
+    "idleSessionTtlInSeconds": 300,
+    "botLocales": [
+      {
+        "localeId": "en_US",
+        "nluConfidenceThreshold": 0.3,
+        "description": "",
+        "voiceSettings": {
+            "voiceId": "Joanna",
+            "engine": "neural"
+        },
+        "slotTypes": [
+          {
+            "name": "Retention",
+            "description": "Slot Type to hold user retention actions",
+            "slotTypeValues": [
+              {
+                "sampleValue": { "value": "cancel my subscription" }
+              },
+              {
+                "sampleValue": { "value": "pause my plan" }
+              }
+            ],
+            "valueSelectionSetting": {
+              "resolutionStrategy": "ORIGINAL_VALUE"
+            }
+          }
+        ],
+        "intents": [
+          {
+            "name": "InkRetention",
+            "description": "Select the Ink Retention Contact Flow",
+            "sampleUtterances": [
+              {
+                "utterance": "I want to cancel my subscription"
+              },
+              {
+                "utterance": "How do I pause my ink plan?"
+              },
+              {
+                "utterance": "I need help with my subscription"
+              }
+            ],
+            "fulfillmentCodeHook": {
+                "enabled": true
+            },
+            "dialogCodeHook": {
+                "enabled": true
+            },
+            "slots": [
+              {
+                "name": "cancel",
+                "slotTypeName": "Retention",
+                "obfuscationSetting": {
+                  "obfuscationSettingType": "None"
+                },
+                "valueElicitationSetting": {
+                  "slotConstraint": "Optional",
+                  "promptSpecification": {
+                    "maxRetries": 2,
+                    "allowInterrupt": true,
+                    "messageGroupsList": [
+                      {
+                        "message": {
+                          "plainTextMessage": {
+                            "value": "What action would you like to take on your subscription?"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "slotPriorities": [
+                {
+                    "priority": 1,
+                    "slotName": "cancel"
+                }
+            ]
+          },
+          {
+            "name": "FallbackIntent",
+            "parentIntentSignature": "AMAZON.FallbackIntent",
+            "description": "Have the fallback intent call the lambda",
+            "fulfillmentCodeHook": {
+              "enabled": true
+            },
+            "dialogCodeHook": {
+              "enabled": true
+            }
+          }
+        ]
+      },
+      {
+        "localeId": "en_GB",
+        "nluConfidenceThreshold": 0.3,
+        "description": "",
+        "voiceSettings": {
+            "voiceId": "Emma",
+            "engine": "neural"
+        },
+        "slotTypes": [
+          {
+            "name": "Retention",
+            "description": "Slot Type to hold user retention actions",
+            "slotTypeValues": [
+              {
+                "sampleValue": { "value": "cancel my subscription" }
+              },
+              {
+                "sampleValue": { "value": "pause my plan" }
+              }
+            ],
+            "valueSelectionSetting": {
+              "resolutionStrategy": "ORIGINAL_VALUE"
+            }
+          }
+        ],
+        "intents": [
+          {
+            "name": "InkRetention",
+            "description": "Select the Ink Retention Contact Flow",
+            "sampleUtterances": [
+              {
+                "utterance": "I want to cancel my subscription"
+              },
+              {
+                "utterance": "How do I pause my ink plan?"
+              },
+              {
+                "utterance": "I need help with my subscription"
+              }
+            ],
+            "fulfillmentCodeHook": {
+                "enabled": true
+            },
+            "dialogCodeHook": {
+                "enabled": true
+            },
+            "slots": [
+              {
+                "name": "cancel",
+                "slotTypeName": "Retention",
+                "obfuscationSetting": {
+                  "obfuscationSettingType": "None"
+                },
+                "valueElicitationSetting": {
+                  "slotConstraint": "Optional",
+                  "promptSpecification": {
+                    "maxRetries": 2,
+                    "allowInterrupt": true,
+                    "messageGroupsList": [
+                      {
+                        "message": {
+                          "plainTextMessage": {
+                            "value": "What action would you like to take on your subscription?"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "slotPriorities": [
+                {
+                    "priority": 1,
+                    "slotName": "cancel"
+                }
+            ]
+          },
+          {
+            "name": "FallbackIntent",
+            "parentIntentSignature": "AMAZON.FallbackIntent",
+            "description": "Have the fallback intent call the lambda",
+            "fulfillmentCodeHook": {
+              "enabled": true
+            },
+            "dialogCodeHook": {
+              "enabled": true
+            }
+          }
+        ]
+      },
+      {
+        "localeId": "en_AU",
+        "nluConfidenceThreshold": 0.3,
+        "description": "",
+        "voiceSettings": {
+            "voiceId": "Olivia",
+            "engine": "neural"
+        },
+        "slotTypes": [
+          {
+            "name": "Retention",
+            "description": "Slot Type to hold user retention actions",
+            "slotTypeValues": [
+              {
+                "sampleValue": { "value": "cancel my subscription" }
+              },
+              {
+                "sampleValue": { "value": "pause my plan" }
+              }
+            ],
+            "valueSelectionSetting": {
+              "resolutionStrategy": "ORIGINAL_VALUE"
+            }
+          }
+        ],
+        "intents": [
+          {
+            "name": "InkRetention",
+            "description": "Select the Ink Retention Contact Flow",
+            "sampleUtterances": [
+              {
+                "utterance": "I want to cancel my subscription"
+              },
+              {
+                "utterance": "How do I pause my ink plan?"
+              },
+              {
+                "utterance": "I need help with my subscription"
+              }
+            ],
+            "fulfillmentCodeHook": {
+                "enabled": true
+            },
+            "dialogCodeHook": {
+                "enabled": true
+            },
+            "slots": [
+              {
+                "name": "cancel",
+                "slotTypeName": "Retention",
+                "obfuscationSetting": {
+                  "obfuscationSettingType": "None"
+                },
+                "valueElicitationSetting": {
+                  "slotConstraint": "Optional",
+                  "promptSpecification": {
+                    "maxRetries": 2,
+                    "allowInterrupt": true,
+                    "messageGroupsList": [
+                      {
+                        "message": {
+                          "plainTextMessage": {
+                            "value": "What action would you like to take on your subscription?"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "slotPriorities": [
+                {
+                    "priority": 1,
+                    "slotName": "cancel"
+                }
+            ]
+          },
+          {
+            "name": "FallbackIntent",
+            "parentIntentSignature": "AMAZON.FallbackIntent",
+            "description": "Have the fallback intent call the lambda",
+            "fulfillmentCodeHook": {
+              "enabled": true
+            },
+            "dialogCodeHook": {
+              "enabled": true
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
