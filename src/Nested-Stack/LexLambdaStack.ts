@@ -51,7 +51,7 @@ export class LexLambdaStack extends cdk.NestedStack {
 
    const props3={...props, fileName: "askcaseproduct.json", botname:"AskCaseProductBot", LambdaName: "AskCaseProduct"}
 
-   const lexBotStack3= new LexBotStack1(this,"SupportLexBotStack",props3);
+   const lexBotStack3= new LexBotStack1(this,"AskCasePrctLexBotStack",props3);
 
 
    // Ensure LexBotStack depends on RoutingLambdaStack
